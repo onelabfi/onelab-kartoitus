@@ -18,7 +18,7 @@ export default function AdminSurveyDetailPage() {
   useEffect(() => {
     Promise.all([
       supabase.from('surveys').select('*').eq('id', id).single(),
-      supabase.from('samples').select('*').eq('survey_id', id).order('created_at'),
+      supabase.from('survey_samples').select('*').eq('survey_id', id).order('created_at'),
     ]).then(([{ data: s }, { data: sm }]) => {
       if (s) setSurvey(s);
       if (sm) setSamples(sm);
@@ -32,7 +32,7 @@ export default function AdminSurveyDetailPage() {
   const save = async () => {
     setSaving(true);
     for (const s of samples) {
-      await supabase.from('samples').update({
+      await supabase.from('survey_samples').update({
         asbestos_detected: s.asbestos_detected,
         asbestos_type: s.asbestos_type,
         lab_notes: s.lab_notes,

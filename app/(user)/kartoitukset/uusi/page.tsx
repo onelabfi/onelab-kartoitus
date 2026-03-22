@@ -79,7 +79,7 @@ export default function NewSurveyPage() {
           photoUrl = urlData.publicUrl;
         }
       }
-      await supabase.from('samples').insert({
+      await supabase.from('survey_samples').insert({
         survey_id: survey.id, sample_code: s.sample_code, location: s.location,
         material: s.material, description: s.description || null, photo_url: photoUrl,
       });

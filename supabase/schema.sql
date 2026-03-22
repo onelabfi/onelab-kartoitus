@@ -10,7 +10,7 @@ CREATE TABLE surveys (
 );
 
 -- Samples table
-CREATE TABLE samples (
+CREATE TABLE survey_samples (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   survey_id uuid REFERENCES surveys(id) ON DELETE CASCADE,
   sample_code text, -- e.g. N-001
@@ -33,11 +33,11 @@ CREATE TABLE admin_users (
 
 -- Row level security
 ALTER TABLE surveys ENABLE ROW LEVEL SECURITY;
-ALTER TABLE samples ENABLE ROW LEVEL SECURITY;
+ALTER TABLE survey_samples ENABLE ROW LEVEL SECURITY;
 ALTER TABLE admin_users ENABLE ROW LEVEL SECURITY;
 
 CREATE POLICY "Users see own surveys" ON surveys FOR ALL USING (auth.uid() = user_id);
-CREATE POLICY "Users see own samples" ON samples FOR ALL USING (
+CREATE POLICY "Users see own samples" ON survey_samples FOR ALL USING (
   survey_id IN (SELECT id FROM surveys WHERE user_id = auth.uid())
 );
 CREATE POLICY "Admins see all" ON surveys FOR ALL TO authenticated USING (

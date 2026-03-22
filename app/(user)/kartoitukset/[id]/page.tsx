@@ -18,7 +18,7 @@ export default function SurveyDetailPage() {
   useEffect(() => {
     Promise.all([
       supabase.from('surveys').select('*').eq('id', id).single(),
-      supabase.from('samples').select('*').eq('survey_id', id).order('created_at'),
+      supabase.from('survey_samples').select('*').eq('survey_id', id).order('created_at'),
     ]).then(([{ data: s }, { data: sm }]) => {
       if (s) setSurvey(s);
       if (sm) setSamples(sm);
