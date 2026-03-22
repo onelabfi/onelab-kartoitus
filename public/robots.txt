@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /home
+Disallow: /kartoitukset
+Disallow: /raportit
+Disallow: /asetukset
+Disallow: /onboarding
+Disallow: /guide
+
+Sitemap: https://onelab-kartoitus.vercel.app/sitemap.xml

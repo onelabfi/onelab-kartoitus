@@ -1,139 +1,124 @@
-'use client';
-export const dynamic = 'force-dynamic';
-
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { supabase } from '@/lib/supabase';
+import AuthRedirect from './AuthRedirect';
+
+const features = [
+  { icon: '📍', title: 'Google Maps -osoitehaku', desc: 'Kohteen osoite täydentyy automaattisesti — ei kirjoitusvirheitä, ei turhaa aikaa.' },
+  { icon: '📷', title: 'Valokuvat näytteistä', desc: 'Ota kuva suoraan sovelluksessa jokaiselle näytteelle. Tallennetaan automaattisesti raporttiin.' },
+  { icon: '📄', title: 'Automaattinen PDF-raportti', desc: 'Laboratorio syöttää tulokset ja järjestelmä luo valmiin asbestikartoitusraportin.' },
+  { icon: '🔔', title: 'Reaaliaikainen tilastatus', desc: 'Näet heti kun analyysi on valmis ja raportti lähetetty.' },
+  { icon: '🔒', title: 'Pakollinen perehdytys', desc: 'Sovellus varmistaa että kartoittaja on perehtynyt turvalliseen näytteenottoon ennen aloitusta.' },
+  { icon: '🏗️', title: 'Kohteen tyypin mukainen raportti', desc: 'Pintaremontti, purkukohde tai muu — raportti mukautuu automaattisesti.' },
+];
+
+const steps = [
+  { n: '1', title: 'Kirjaudu sisään', desc: 'Luo tili tai kirjaudu olemassa olevalla tunnuksella.' },
+  { n: '2', title: 'Suorita perehdytys', desc: 'Lue turvalliset näytteenotto-ohjeet — pakollinen ennen ensimmäistä kartoitusta.' },
+  { n: '3', title: 'Aloita kartoitus', desc: 'Syötä kohteen tiedot, lisää näytteet ja valokuvat.' },
+  { n: '4', title: 'Saat raportin', desc: 'Onelabin laboratorio analysoi näytteet ja lähettää valmiin PDF-raportin.' },
+];
 
 export default function LandingPage() {
-  const router = useRouter();
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) router.replace('/home');
-    });
-  }, [router]);
-
   return (
-    <div className="min-h-screen" style={{ background: '#0A0F1A' }}>
-      {/* ── DESKTOP LAYOUT ── */}
-      <div className="hidden md:flex min-h-screen">
-        {/* Left: marketing */}
-        <div className="flex-1 flex flex-col justify-center px-16 xl:px-24 py-16">
-          {/* Logo / brand */}
-          <div className="mb-12">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{ background: 'linear-gradient(135deg, #1B3A6B, #2563EB)' }}>🔬</div>
-              <span className="text-white font-bold text-lg tracking-tight">Onelab Kartoittaja</span>
+    <>
+      <AuthRedirect />
+      <div style={{ background: '#0A0F1A', color: '#fff', fontFamily: 'system-ui, sans-serif' }}>
+
+        {/* NAV */}
+        <nav style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '0 1.5rem' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg,#1B3A6B,#2563EB)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }}>🔬</div>
+              <span style={{ fontWeight: 800, fontSize: 16 }}>Onelab Kartoittaja</span>
             </div>
-            <p className="text-sm" style={{ color: '#6B7280' }}>Asbestikartoitustyökalu</p>
+            <Link href="/login" style={{ background: 'linear-gradient(135deg,#1B3A6B,#2563EB)', color: '#fff', fontWeight: 700, fontSize: 14, padding: '10px 22px', borderRadius: 12, textDecoration: 'none' }}>
+              Kirjaudu sisään →
+            </Link>
           </div>
+        </nav>
 
-          <h1 className="text-5xl xl:text-6xl font-black text-white leading-tight mb-6">
-            Asbestikartoitus<br />
-            <span style={{ color: '#2563EB' }}>tehokkaasti.</span>
-          </h1>
+        {/* HERO */}
+        <section style={{ maxWidth: 1100, margin: '0 auto', padding: '80px 1.5rem 60px', display: 'flex', alignItems: 'center', gap: 60, flexWrap: 'wrap' }}>
+          <div style={{ flex: '1 1 400px' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(37,99,235,0.15)', border: '1px solid rgba(37,99,235,0.3)', borderRadius: 999, padding: '6px 14px', marginBottom: 24 }}>
+              <span style={{ color: '#60A5FA', fontSize: 12, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>Analyysi: Onelab Oy</span>
+            </div>
+            <h1 style={{ fontSize: 'clamp(2.2rem,5vw,3.5rem)', fontWeight: 900, lineHeight: 1.1, marginBottom: 20 }}>
+              Asbestikartoitus<br />
+              <span style={{ color: '#2563EB' }}>tehokkaasti.</span>
+            </h1>
+            <p style={{ fontSize: 17, color: '#9CA3AF', lineHeight: 1.7, maxWidth: 480, marginBottom: 32 }}>
+              Mobiilisovellus asbestikartoittajille — kerää näytteet, dokumentoi kohteet ja lähetä asbestikartoitusraportti suoraan laboratorioon.
+            </p>
+            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+              <Link href="/login" style={{ background: 'linear-gradient(135deg,#1B3A6B,#2563EB)', color: '#fff', fontWeight: 700, fontSize: 16, padding: '16px 32px', borderRadius: 16, textDecoration: 'none', boxShadow: '0 8px 32px rgba(37,99,235,0.35)' }}>
+                Avaa sovellus →
+              </Link>
+              <a href="https://onelab.fi" target="_blank" rel="noopener noreferrer" style={{ border: '1px solid rgba(255,255,255,0.12)', color: '#9CA3AF', fontWeight: 600, fontSize: 15, padding: '16px 28px', borderRadius: 16, textDecoration: 'none' }}>
+                onelab.fi ↗
+              </a>
+            </div>
+          </div>
+          <div style={{ flex: '0 0 auto', display: 'flex', justifyContent: 'center' }}>
+            <div style={{ position: 'relative', width: 260 }}>
+              <div style={{ borderRadius: 44, overflow: 'hidden', border: '4px solid #1C1C1E', boxShadow: '0 40px 80px rgba(0,0,0,0.6)', aspectRatio: '9/19.5' }}>
+                <img src="/hero.png" alt="Onelab Kartoittaja mobiilisovellus asbestikartoitukseen" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} width={260} height={565} />
+              </div>
+            </div>
+          </div>
+        </section>
 
-          <p className="text-lg mb-4 max-w-md leading-relaxed" style={{ color: '#9CA3AF' }}>
-            Mobiilisovellus asbestikartoittajille — kerää näytteet, dokumentoi kohteet ja lähetä kartoitus suoraan laboratorioon.
-          </p>
+        {/* FEATURES */}
+        <section style={{ background: 'rgba(255,255,255,0.02)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', padding: '72px 1.5rem' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto' }}>
+            <h2 style={{ fontSize: 'clamp(1.5rem,3vw,2.2rem)', fontWeight: 800, textAlign: 'center', marginBottom: 8 }}>Kaikki mitä tarvitset asbestikartoitukseen</h2>
+            <p style={{ color: '#6B7280', textAlign: 'center', marginBottom: 48, fontSize: 15 }}>Suunniteltu kentällä työskenteleville kartoittajille</p>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))', gap: 20 }}>
+              {features.map(({ icon, title, desc }) => (
+                <div key={title} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: 24 }}>
+                  <div style={{ fontSize: 28, marginBottom: 12 }}>{icon}</div>
+                  <h3 style={{ fontWeight: 700, fontSize: 16, marginBottom: 8 }}>{title}</h3>
+                  <p style={{ color: '#6B7280', fontSize: 14, lineHeight: 1.6 }}>{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
-          <div className="space-y-3 mb-10 max-w-md">
-            {[
-              { icon: '📍', text: 'Osoitteen automaattitäyttö Google Mapsilla' },
-              { icon: '📷', text: 'Valokuvat suoraan jokaiselle näytteelle' },
-              { icon: '📄', text: 'Automaattinen PDF-raportti tuloksista' },
-              { icon: '🔔', text: 'Reaaliaikainen tilastatus laboratorion kanssa' },
-            ].map(({ icon, text }) => (
-              <div key={text} className="flex items-center gap-3">
-                <span className="text-xl">{icon}</span>
-                <span className="text-sm" style={{ color: '#9CA3AF' }}>{text}</span>
+        {/* HOW IT WORKS */}
+        <section style={{ maxWidth: 1100, margin: '0 auto', padding: '72px 1.5rem' }}>
+          <h2 style={{ fontSize: 'clamp(1.5rem,3vw,2.2rem)', fontWeight: 800, textAlign: 'center', marginBottom: 8 }}>Näin se toimii</h2>
+          <p style={{ color: '#6B7280', textAlign: 'center', marginBottom: 48, fontSize: 15 }}>Ensimmäisestä kirjautumisesta valmiiseen asbestikartoitusraporttiin</p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 20 }}>
+            {steps.map(({ n, title, desc }) => (
+              <div key={n} style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: 24 }}>
+                <div style={{ width: 40, height: 40, borderRadius: 12, background: 'linear-gradient(135deg,#1B3A6B,#2563EB)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: 18, marginBottom: 16 }}>{n}</div>
+                <h3 style={{ fontWeight: 700, fontSize: 15, marginBottom: 8 }}>{title}</h3>
+                <p style={{ color: '#6B7280', fontSize: 13, lineHeight: 1.6 }}>{desc}</p>
               </div>
             ))}
           </div>
+        </section>
 
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Link
-              href="/login"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-2xl text-white font-bold text-base shadow-xl active:scale-95 transition-transform"
-              style={{ background: 'linear-gradient(135deg, #1B3A6B 0%, #2563EB 100%)', border: '1px solid rgba(255,255,255,0.15)' }}
-            >
-              Avaa kartoittaja-sovellus
-              <span className="text-lg">→</span>
-            </Link>
-            <a
-              href="https://onelab.fi"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center px-8 py-4 rounded-2xl text-sm font-semibold"
-              style={{ border: '1px solid rgba(255,255,255,0.1)', color: '#9CA3AF' }}
-            >
-              onelab.fi ↗
-            </a>
-          </div>
-
-          <p className="text-xs mt-8" style={{ color: '#4B5563' }}>
-            Analyysi: Onelab Oy · Asbestikartoitus remonttikohteisiin
-          </p>
-        </div>
-
-        {/* Right: phone mockup with hero */}
-        <div className="w-[480px] xl:w-[560px] flex items-center justify-center p-16 relative">
-          <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse at center, rgba(37,99,235,0.12) 0%, transparent 70%)' }} />
-          {/* Phone frame */}
-          <div className="relative w-64 xl:w-72">
-            <div
-              className="rounded-[3rem] overflow-hidden shadow-2xl border-4 aspect-[9/19.5]"
-              style={{ borderColor: '#1C1C1E', background: '#1C1C1E', boxShadow: '0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05)' }}
-            >
-              <img
-                src="/hero.png"
-                alt="Kartoittaja app"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            {/* Notch */}
-            <div className="absolute top-3 left-1/2 -translate-x-1/2 w-16 h-5 rounded-full" style={{ background: '#1C1C1E' }} />
-          </div>
-        </div>
-      </div>
-
-      {/* ── MOBILE LAYOUT (full-screen hero) ── */}
-      <div className="md:hidden relative min-h-screen w-full overflow-hidden flex flex-col">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: 'url(/hero.png)' }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.8) 100%)' }}
-        />
-        <div className="relative flex flex-col justify-end min-h-screen max-w-md mx-auto w-full px-6 pb-16">
-          <div className="mb-6">
-            <span className="text-xs font-semibold tracking-widest uppercase px-3 py-1 rounded-full border border-white/20 text-white/70">
-              Analyysi: Onelab
-            </span>
-          </div>
-          <h1 className="text-4xl font-black text-white mb-2 leading-tight">
-            Asbestikartoitus<br />tehokkaasti.
-          </h1>
-          <p className="text-sm text-white/60 mb-8">
-            Mobiilisovellus asbestikartoittajille
-          </p>
-          <Link
-            href="/login"
-            className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl text-white font-bold text-lg shadow-2xl active:scale-95 transition-transform"
-            style={{ background: 'linear-gradient(135deg, #1B3A6B 0%, #2563EB 100%)', border: '1px solid rgba(255,255,255,0.15)' }}
-          >
-            Aloita
-            <span className="text-xl">→</span>
+        {/* CTA */}
+        <section style={{ background: 'linear-gradient(135deg, rgba(27,58,107,0.4), rgba(37,99,235,0.15))', border: '1px solid rgba(37,99,235,0.2)', margin: '0 1.5rem 80px', borderRadius: 28, padding: '56px 32px', textAlign: 'center', maxWidth: 900, marginLeft: 'auto', marginRight: 'auto' }}>
+          <h2 style={{ fontSize: 'clamp(1.5rem,3vw,2rem)', fontWeight: 800, marginBottom: 12 }}>Valmis aloittamaan?</h2>
+          <p style={{ color: '#9CA3AF', fontSize: 15, marginBottom: 32 }}>Rekisteröidy ilmaiseksi ja aloita ensimmäinen asbestikartoitus tänään.</p>
+          <Link href="/login" style={{ background: 'linear-gradient(135deg,#1B3A6B,#2563EB)', color: '#fff', fontWeight: 700, fontSize: 16, padding: '18px 40px', borderRadius: 16, textDecoration: 'none', display: 'inline-block' }}>
+            Luo tili ilmaiseksi →
           </Link>
-          <p className="text-center text-xs mt-4 text-white/40">
-            Asbestikartoitustyökalu remonttikohteisiin
+        </section>
+
+        {/* FOOTER */}
+        <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 1.5rem', textAlign: 'center' }}>
+          <p style={{ color: '#374151', fontSize: 13 }}>
+            © 2026 Onelab Oy · Asbestikartoitus remonttikohteisiin ·{' '}
+            <a href="https://onelab.fi" style={{ color: '#374151' }}>onelab.fi</a>
           </p>
-        </div>
+          <p style={{ color: '#374151', fontSize: 11, marginTop: 6 }}>
+            Tämä sovellus ei korvaa pätevän asbestikartoittajan tekemää virallista kartoitusta.
+          </p>
+        </footer>
       </div>
-    </div>
+    </>
   );
 }
