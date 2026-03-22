@@ -88,6 +88,18 @@ export default function HomePage() {
           <span className="ml-auto text-white/40 text-xl">›</span>
         </Link>
 
+        <Link href="/guide" className="flex items-center gap-4 w-full px-5 py-4 rounded-2xl transition-all active:scale-95"
+          style={{ background: 'linear-gradient(135deg, #2C2C2E 0%, #3A3A3C 100%)', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style={{ background: 'rgba(255,255,255,0.08)' }}>
+            📖
+          </div>
+          <div className="text-left">
+            <p className="text-white font-bold text-lg leading-tight">Ohjeet</p>
+            <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>Näytteenotto-ohje</p>
+          </div>
+          <span className="ml-auto text-white/40 text-xl">›</span>
+        </Link>
+
         <Link href="/asetukset" className="flex items-center gap-4 w-full px-5 py-4 rounded-2xl transition-all active:scale-95"
           style={{ background: 'linear-gradient(135deg, #2C2C2E 0%, #3A3A3C 100%)', border: '1px solid rgba(255,255,255,0.08)' }}>
           <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style={{ background: 'rgba(255,255,255,0.08)' }}>
