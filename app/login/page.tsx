@@ -20,13 +20,13 @@ export default function LoginPage() {
     if (mode === 'login') {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) setError(error.message);
-      else router.replace('/');
+      else router.replace('/home');
     } else {
       const { error } = await supabase.auth.signUp({ email, password });
       if (error) setError(error.message);
       else {
         if (name) localStorage.setItem('userName', name);
-        router.replace('/');
+        router.replace('/home');
       }
     }
     setLoading(false);
