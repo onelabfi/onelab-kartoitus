@@ -117,7 +117,7 @@ export default function LandingPage() {
             © 2026 Onelab Oy · Asbestikartoitus remonttikohteisiin ·{' '}
             <a href="https://onelab.fi" style={{ color: '#9CA3AF' }}>onelab.fi</a>
           </p>
-          <p style={{ color: '#6B7280', fontSize: 12, marginTop: 6 }}>
+          <p style={{ color: '#9CA3AF', fontSize: 12, marginTop: 6 }}>
             Tämä sovellus ei korvaa pätevän asbestikartoittajan tekemää virallista kartoitusta.
           </p>
         </footer>
