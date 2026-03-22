@@ -153,7 +153,7 @@ export default function AsbestiRemonttiPage() {
           <div style={warn} role="note" aria-label="Pintaremonttivinkki">
             <p style={{ fontWeight: 700, marginBottom: 8, color: '#FDE047' }}>💡 Pintaremontti vs. purkukohde</p>
             <p style={{ ...muted, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
-              Pintaremontissa (maalataan, tapetoitaan, uusi lattia vanhan päälle) asbestipitoinen materiaali voidaan usein jättää paikoilleen, jos se on ehjä. Purkutyössä kaikki asbestipitoinen materiaali on poistettava ennen varsinaisia töitä.
+              Pintaremontissa — kuten laatta- tai lattiamateriaalin vaihdossa — olemassa oleva pinta rikotaan, jolloin asbestipitoisuus on selvitettävä. Jos asbestia löytyy, on kaksi vaihtoehtoa: materiaali poistetaan kokonaan, tai se jätetään paikoilleen ja peitetään uudella rakenteella — jälkimmäinen on usein edullisempi ratkaisu. Purkutyössä, jossa rakennus puretaan kokonaan, kaikki asbestipitoinen materiaali on kartoitettava ja poistettava ennen purkutöiden aloittamista.
             </p>
           </div>
 
