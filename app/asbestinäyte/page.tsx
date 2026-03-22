@@ -109,7 +109,7 @@ export default function AsbestinäytePage() {
 
           <h2 style={{ fontSize: '1.6rem', fontWeight: 800, marginBottom: 16 }}>Mitä laboratorio analysoi?</h2>
           <p style={{ ...muted, fontSize: 15, lineHeight: 1.8, marginBottom: 24 }}>
-            Onelabin laboratorio analysoi näytteen polarisaatiomikroskopialla (PLM) tai pyyhkäisyelektronimikroskopialla (SEM). Analyysi tunnistaa asbestimineraalit ja niiden pitoisuuden materiaalissa. Tuloksena saat kirjallisen raportin, jossa ilmoitetaan:
+            Onelabin laboratorio analysoi näytteen pyyhkäisyelektronimikroskopialla (SEM). Analyysi tunnistaa asbestimineraalit ja niiden pitoisuuden materiaalissa. Tuloksena saat kirjallisen raportin, jossa ilmoitetaan:
           </p>
           <ul style={{ ...muted, fontSize: 15, lineHeight: 2, paddingLeft: 24 }}>
             <li>Sisältääkö materiaali asbestia (kyllä / ei)</li>
