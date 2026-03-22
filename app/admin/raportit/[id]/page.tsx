@@ -227,6 +227,7 @@ export default function AdminSurveyDetailPage() {
                   rows={2}
                   placeholder="Laboratoriomuistiinpanot (valinnainen)..."
                   className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 resize-none border-gray-200"
+                  style={{ color: '#1C1C1E', background: 'white' }}
                 />
               </div>
             </div>

@@ -58,7 +58,9 @@ export function generateYleista(
     material: string;
     materials: string[] | null;
     material_muu?: string | null;
-  }>
+  }>,
+  katto?: string | null,
+  runko?: string | null,
 ): string {
   const asbestosSamples = samples.filter(s => s.asbestos_detected === true);
   const cleanSamples = samples.filter(s => s.asbestos_detected === false);
@@ -70,18 +72,20 @@ export function generateYleista(
   let base = `Kohde ${surveyName} sijaitsee ${city || 'kohteessa'}. `;
 
   if (isPurku) {
-    base += 'Kohteessa on tarkoitus suorittaa purkutyö. ';
+    if (katto && runko) {
+      // e.g. "Kohteessa on tarkoitus purkaa peltikattoinen puurakennus."
+      const kattoAdj = katto.toLowerCase() + 'kattoinen';
+      const runkoNoun = runko.toLowerCase() + 'rakennus';
+      base += `Kohteessa on tarkoitus purkaa ${kattoAdj} ${runkoNoun}. `;
+    } else {
+      base += 'Kohteessa on tarkoitus suorittaa purkutyö. ';
+    }
   } else if (isPinta) {
     base += 'Kohteessa on tarkoitus suorittaa pintaremontti. ';
   }
 
   base +=
     'Kohde kartoitettiin aistinvaraisesti ja näytteistettiin niiltä osin, kun oli epäiltävää, että materiaalissa saattaa olla asbestia tai muita haitta-aineita. ';
-
-  // "no asbestos in any sample" sentence — only for demolition sites
-  if (isPurku && !hasAsbestos) {
-    base += 'Kohteen rakenteissa ei havaittu asbestia tai muita haitta-aineita kaikissa näytteissä. ';
-  }
 
   if (hasAsbestos) {
     // Build list: "Keittiön liima, WC:n laatta"
@@ -105,7 +109,7 @@ export function generateYleista(
       base += ' Muut tutkitut materiaalit voidaan purkaa normaalipurkuna.';
     }
   } else {
-    base += 'Tutkitut materiaalit voidaan purkaa normaalipurkuna.';
+    base += 'Materiaalit voidaan purkaa normaalipurkuna.';
   }
 
   return base;
