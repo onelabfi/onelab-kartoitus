@@ -113,6 +113,11 @@ export default function LandingPage() {
 
         {/* FOOTER */}
         <footer style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '32px 1.5rem', textAlign: 'center' }}>
+          <nav aria-label="Tietosivut" style={{ marginBottom: 20, display: 'flex', gap: 24, justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link href="/asbestinäyte" style={{ color: '#60A5FA', fontSize: 14, textDecoration: 'none' }}>Asbestinäyte</Link>
+            <Link href="/asbestikartoitus-ohjeet" style={{ color: '#60A5FA', fontSize: 14, textDecoration: 'none' }}>Asbestikartoitus ohjeet</Link>
+            <Link href="/asbesti-remontti" style={{ color: '#60A5FA', fontSize: 14, textDecoration: 'none' }}>Asbesti remonttikohteessa</Link>
+          </nav>
           <p style={{ color: '#9CA3AF', fontSize: 13 }}>
             © 2026 Onelab Oy · Asbestikartoitus remonttikohteisiin ·{' '}
             <a href="https://onelab.fi" style={{ color: '#9CA3AF' }}>onelab.fi</a>
