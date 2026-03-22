@@ -79,6 +79,8 @@ export default function UusiKartoitusPage() {
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [tilaajaNimi, setTilaajaNimi] = useState('');
+  const [nimiError, setNimiError] = useState('');
   const [tilaajaSahkoposti, setTilaajaSahkoposti] = useState('');
   const [emailError, setEmailError] = useState('');
   const [kohde_tyyppi, setKohdeTyyppi] = useState('');
@@ -131,7 +133,8 @@ export default function UusiKartoitusPage() {
         city: city || address,
         date,
         status: 'submitted',
-        tilaaja_email: tilaajaSahkoposti,
+        tilaaja_nimi: tilaajaNimi,
+      tilaaja_email: tilaajaSahkoposti,
         kohde_tyyppi: kohde_tyyppi === 'Muu' ? kohde_muu : kohde_tyyppi,
         kohde_muu,
         katto,
@@ -215,6 +218,18 @@ export default function UusiKartoitusPage() {
               <AddressInput value={address} onChange={setAddress} onCityChange={setCity} />
             </div>
             <div>
+              <label className="block text-sm font-medium mb-1">Tilaajan nimi *</label>
+              <input
+                type="text"
+                value={tilaajaNimi}
+                onChange={e => { setTilaajaNimi(e.target.value); setNimiError(''); }}
+                placeholder="esim. Matti Meikäläinen"
+                className="w-full border rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500 bg-white"
+                style={{ borderColor: nimiError ? '#EF4444' : 'var(--border)' }}
+              />
+              {nimiError && <p className="text-xs text-red-500 mt-1">{nimiError}</p>}
+            </div>
+            <div>
               <label className="block text-sm font-medium mb-1">Tilaajan sähköposti *</label>
               <input
                 type="email"
@@ -271,6 +286,7 @@ export default function UusiKartoitusPage() {
 
             <button
               onClick={() => {
+                if (!tilaajaNimi.trim()) { setNimiError('Tilaajan nimi on pakollinen'); return; }
                 const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(tilaajaSahkoposti);
                 if (!emailOk) { setEmailError('Anna kelvollinen sähköpostiosoite'); return; }
                 setStep(2);
