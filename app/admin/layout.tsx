@@ -30,7 +30,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const logout = async () => { await supabase.auth.signOut(); router.replace('/admin/login'); };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50 flex" style={{ color: '#1C1C1E' }}>
       <aside className="w-56 bg-slate-900 text-white flex flex-col">
         <div className="p-5 border-b border-slate-700">
           <p className="font-bold text-sm">Admin</p>
