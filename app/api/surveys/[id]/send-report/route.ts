@@ -22,15 +22,9 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
   if (!survey) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
-  // Get user email
-  let userEmail: string | undefined;
-  try {
-    const {
-      data: { user },
-    } = await supabase.auth.admin.getUserById(survey.user_id);
-    userEmail = user?.email;
-  } catch {
-    // continue without email
+  const recipientEmail = survey.tilaaja_email;
+  if (!recipientEmail) {
+    return NextResponse.json({ error: 'Tilaajan sähköposti puuttuu kartoituksesta' }, { status: 400 });
   }
 
   // Update status
@@ -44,7 +38,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
   const reportLink = `${reportUrl}/r/${id}`;
 
-  if (userEmail && RESEND_API_KEY) {
+  if (RESEND_API_KEY) {
+    const userEmail = recipientEmail;
     try {
       await getResend().emails.send({
         from: 'Asbestikartoitus <noreply@asbesti.pro>',

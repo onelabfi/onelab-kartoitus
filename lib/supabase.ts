@@ -13,6 +13,7 @@ export type Survey = {
   katto: string | null;
   runko: string | null;
   report_sent_at: string | null;
+  tilaaja_email: string | null;
 };
 
 export type AppSettings = {

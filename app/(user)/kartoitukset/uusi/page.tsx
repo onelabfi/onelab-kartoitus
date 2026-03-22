@@ -79,6 +79,8 @@ export default function UusiKartoitusPage() {
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
   const [date, setDate] = useState(new Date().toISOString().slice(0, 10));
+  const [tilaajaSahkoposti, setTilaajaSahkoposti] = useState('');
+  const [emailError, setEmailError] = useState('');
   const [kohde_tyyppi, setKohdeTyyppi] = useState('');
   const [kohde_muu, setKohdeMuu] = useState('');
   const [katto, setKatto] = useState('');
@@ -128,6 +130,7 @@ export default function UusiKartoitusPage() {
       city: city || address,
       date,
       status: 'submitted',
+      tilaaja_email: tilaajaSahkoposti,
       kohde_tyyppi: kohde_tyyppi === 'Muu' ? kohde_muu : kohde_tyyppi,
       kohde_muu,
       katto,
@@ -197,6 +200,18 @@ export default function UusiKartoitusPage() {
               <AddressInput value={address} onChange={setAddress} onCityChange={setCity} />
             </div>
             <div>
+              <label className="block text-sm font-medium mb-1">Tilaajan sähköposti *</label>
+              <input
+                type="email"
+                value={tilaajaSahkoposti}
+                onChange={e => { setTilaajaSahkoposti(e.target.value); setEmailError(''); }}
+                placeholder="esim. asiakas@email.com"
+                className="w-full border rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500 bg-white"
+                style={{ borderColor: emailError ? '#EF4444' : 'var(--border)' }}
+              />
+              {emailError && <p className="text-xs text-red-500 mt-1">{emailError}</p>}
+            </div>
+            <div>
               <label className="block text-sm font-medium mb-1">Päivämäärä</label>
               <input type="date" value={date} onChange={e => setDate(e.target.value)} className="w-full border rounded-xl px-4 py-3 text-sm outline-none bg-white" style={{ borderColor: 'var(--border)' }} />
             </div>
@@ -239,7 +254,16 @@ export default function UusiKartoitusPage() {
               </>
             )}
 
-            <button onClick={() => setStep(2)} disabled={!address} className="w-full py-4 rounded-2xl text-white font-semibold mt-2 disabled:opacity-40" style={{ background: 'var(--accent)' }}>
+            <button
+              onClick={() => {
+                const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(tilaajaSahkoposti);
+                if (!emailOk) { setEmailError('Anna kelvollinen sähköpostiosoite'); return; }
+                setStep(2);
+              }}
+              disabled={!address}
+              className="w-full py-4 rounded-2xl text-white font-semibold mt-2 disabled:opacity-40"
+              style={{ background: 'var(--accent)' }}
+            >
               Seuraava →
             </button>
           </div>
