@@ -44,6 +44,7 @@ export type Sample = {
   location_muu: string | null;
   material_muu: string | null;
   sub_location_muu: string | null;
+  polyavyys: number | null;
 };
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';

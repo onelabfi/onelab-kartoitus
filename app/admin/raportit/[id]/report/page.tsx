@@ -108,7 +108,7 @@ export default function ReportPage() {
       );
       const polyMap: Record<string, number> = {};
       samples.forEach(s => {
-        polyMap[s.id] = 3;
+        polyMap[s.id] = s.polyavyys ?? 3;
       });
       setEditPolyavyys(polyMap);
     }
@@ -368,6 +368,20 @@ export default function ReportPage() {
                     })}
                   </tbody>
                 </table>
+              </div>
+            )}
+
+            {/* Pölyävyys legend — only shown if any asbestos found */}
+            {asbestosSamples.length > 0 && (
+              <div className="mb-5 p-3 rounded-lg" style={{ background: '#F9FAFB', border: '1px solid #E5E7EB' }}>
+                <p className="text-[11px] font-semibold text-gray-600 mb-1.5">Pölyävyysluokitus (1–5)</p>
+                <div className="grid grid-cols-1 gap-0.5 text-[11px] text-gray-600">
+                  <span><b>1</b> – Ehjä, ei pölyä</span>
+                  <span><b>2</b> – Lievä pölyävyys</span>
+                  <span><b>3</b> – Pölyää käsiteltäessä</span>
+                  <span><b>4</b> – Pölyää helposti</span>
+                  <span><b>5</b> – Erittäin pölyävä / mureneva</span>
+                </div>
               </div>
             )}
 

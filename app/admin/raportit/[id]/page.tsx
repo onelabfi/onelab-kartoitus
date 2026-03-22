@@ -37,6 +37,7 @@ export default function AdminSurveyDetailPage() {
         asbestos_detected: s.asbestos_detected,
         asbestos_type: s.asbestos_type,
         lab_notes: s.lab_notes,
+        polyavyys: s.polyavyys ?? null,
       }).eq('id', s.id);
     }
     await supabase.from('surveys').update({ status: 'analyzing' }).eq('id', id);
@@ -196,6 +197,29 @@ export default function AdminSurveyDetailPage() {
                     ))}
                   </select>
                 )}
+                {/* Pölyävyys 1-5 */}
+                <div>
+                  <p className="text-xs font-medium text-gray-500 mb-1.5">
+                    Pölyävyys <span className="font-normal">(1 = ehjä · 5 = erittäin pölyävä)</span>
+                  </p>
+                  <div className="flex gap-1.5">
+                    {[1, 2, 3, 4, 5].map(n => (
+                      <button
+                        key={n}
+                        onClick={() => updateSample(s.id, 'polyavyys', n)}
+                        className="flex-1 py-2 rounded-lg text-sm font-bold border-2 transition-colors"
+                        style={{
+                          borderColor: s.polyavyys === n ? '#2563EB' : '#E5E7EB',
+                          background: s.polyavyys === n ? '#EFF6FF' : 'white',
+                          color: s.polyavyys === n ? '#2563EB' : '#374151',
+                        }}
+                      >
+                        {n}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 <textarea
                   value={s.lab_notes || ''}
                   onChange={e => updateSample(s.id, 'lab_notes', e.target.value)}
