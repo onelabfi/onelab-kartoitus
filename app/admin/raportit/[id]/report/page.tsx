@@ -101,7 +101,7 @@ export default function ReportPage() {
 
   useEffect(() => {
     if (survey && samples) {
-      setEditTilaaja('');
+      setEditTilaaja(appSettings?.kartoittaja_name || '');
       setEditKohde(`${survey.name}${survey.city ? ', ' + survey.city : ''}`);
       setEditYleista(
         generateYleista(survey.name, survey.city, survey.kohde_tyyppi, samples, survey.katto, survey.runko)
@@ -112,7 +112,7 @@ export default function ReportPage() {
       });
       setEditPolyavyys(polyMap);
     }
-  }, [survey, samples]);
+  }, [survey, samples, appSettings]);
 
   if (loading) {
     return (
