@@ -3,7 +3,6 @@ export const dynamic = 'force-dynamic';
 
 import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import type { Survey, Sample } from '@/lib/supabase';
 
@@ -102,12 +101,13 @@ export default function AdminSurveyDetailPage() {
               {saving ? '...' : saved ? '✓ Tallennettu' : 'Tallenna tulokset'}
             </button>
             {allResultsIn && (
-              <Link
-                href={`/admin/raportit/${id}/report`}
-                className="px-4 py-2 rounded-lg bg-green-600 text-white text-sm font-semibold"
+              <button
+                onClick={async () => { await save(); router.push(`/admin/raportit/${id}/report`); }}
+                disabled={saving}
+                className="px-4 py-2 rounded-lg bg-green-600 text-white text-sm font-semibold disabled:opacity-50"
               >
                 Avaa raportti →
-              </Link>
+              </button>
             )}
           </div>
         </div>
@@ -188,6 +188,7 @@ export default function AdminSurveyDetailPage() {
                     value={s.asbestos_type || ''}
                     onChange={e => updateSample(s.id, 'asbestos_type', e.target.value)}
                     className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500"
+                    style={{ color: '#1C1C1E', background: 'white' }}
                   >
                     <option value="">Valitse asbestityyppi...</option>
                     {ASBESTOS_TYPES.map(t => (
