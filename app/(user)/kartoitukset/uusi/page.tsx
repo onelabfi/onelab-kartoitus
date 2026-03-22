@@ -121,51 +121,66 @@ export default function UusiKartoitusPage() {
 
   const handleSubmit = async () => {
     setSaving(true);
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) { setSaving(false); return; }
 
-    const { data: survey, error } = await supabase.from('surveys').insert({
-      user_id: user.id,
-      name: address,
-      city: city || address,
-      date,
-      status: 'submitted',
-      tilaaja_email: tilaajaSahkoposti,
-      kohde_tyyppi: kohde_tyyppi === 'Muu' ? kohde_muu : kohde_tyyppi,
-      kohde_muu,
-      katto,
-      runko,
-    }).select().single();
+      const { data: survey, error } = await supabase.from('surveys').insert({
+        user_id: user.id,
+        name: address,
+        city: city || address,
+        date,
+        status: 'submitted',
+        tilaaja_email: tilaajaSahkoposti,
+        kohde_tyyppi: kohde_tyyppi === 'Muu' ? kohde_muu : kohde_tyyppi,
+        kohde_muu,
+        katto,
+        runko,
+      }).select().single();
 
-    if (error || !survey) { setSaving(false); return; }
-
-    for (const s of samples) {
-      let photo_url = null;
-      if (s.photo) {
-        const path = `${survey.id}/${s.id}`;
-        const { error: upErr } = await supabase.storage.from('sample-photos').upload(path, s.photo);
-        if (!upErr) {
-          const { data: u } = supabase.storage.from('sample-photos').getPublicUrl(path);
-          photo_url = u.publicUrl;
-        }
+      if (error || !survey) {
+        console.error('Survey insert error:', error);
+        alert('Tallennus epäonnistui: ' + (error?.message || 'tuntematon virhe'));
+        setSaving(false);
+        return;
       }
-      const materialStr = s.materials.filter(m => m !== 'Muu').join(', ') + (s.material_muu ? `, ${s.material_muu}` : '');
-      await supabase.from('survey_samples').insert({
-        survey_id: survey.id,
-        sample_code: s.sample_code,
-        location: s.location === 'Muu' ? s.location_muu : s.location,
-        location_muu: s.location_muu,
-        sub_location: s.sub_location === 'Muu' ? s.sub_location_muu : s.sub_location,
-        sub_location_muu: s.sub_location_muu,
-        material: materialStr || s.materials.join(', '),
-        materials: s.materials,
-        material_muu: s.material_muu,
-        area_m2: s.area_m2 ? parseFloat(s.area_m2) : null,
-        description: s.notes || null,
-        photo_url,
-      });
+
+      for (const s of samples) {
+        let photo_url = null;
+        if (s.photo) {
+          try {
+            const path = `${survey.id}/${s.id}`;
+            const { error: upErr } = await supabase.storage.from('sample-photos').upload(path, s.photo);
+            if (!upErr) {
+              const { data: u } = supabase.storage.from('sample-photos').getPublicUrl(path);
+              photo_url = u.publicUrl;
+            }
+          } catch {
+            // photo upload failed — continue without photo
+          }
+        }
+        const materialStr = s.materials.filter(m => m !== 'Muu').join(', ') + (s.material_muu ? `, ${s.material_muu}` : '');
+        await supabase.from('survey_samples').insert({
+          survey_id: survey.id,
+          sample_code: s.sample_code,
+          location: s.location === 'Muu' ? s.location_muu : s.location,
+          location_muu: s.location_muu,
+          sub_location: s.sub_location === 'Muu' ? s.sub_location_muu : s.sub_location,
+          sub_location_muu: s.sub_location_muu,
+          material: materialStr || s.materials.join(', '),
+          materials: s.materials,
+          material_muu: s.material_muu,
+          area_m2: s.area_m2 ? parseFloat(s.area_m2) : null,
+          description: s.notes || null,
+          photo_url,
+        });
+      }
+      router.push(`/kartoitukset/${survey.id}?sent=1`);
+    } catch (e) {
+      console.error('handleSubmit error:', e);
+      alert('Odottamaton virhe. Yritä uudelleen.');
+      setSaving(false);
     }
-    router.push(`/kartoitukset/${survey.id}?sent=1`);
   };
 
   const btnStyle = (active: boolean) => ({
