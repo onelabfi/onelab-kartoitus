@@ -166,8 +166,8 @@ export default function UusiKartoitusPage() {
   };
 
   const btnStyle = (active: boolean) => ({
-    borderColor: active ? 'var(--accent)' : 'var(--border)',
-    color: active ? 'var(--accent)' : 'var(--primary)',
+    borderColor: active ? '#2563EB' : '#D1D5DB',
+    color: active ? '#2563EB' : '#1C1C1E',
     background: active ? '#EFF6FF' : 'white',
   });
 
@@ -216,25 +216,28 @@ export default function UusiKartoitusPage() {
               )}
             </div>
 
-            {/* Katto */}
-            <div className="bg-white rounded-2xl p-4 shadow-sm">
-              <p className="text-xs font-semibold mb-2" style={{ color: 'var(--muted)' }}>KATTO</p>
-              <div className="flex gap-2">
-                {['Pelti', 'Huopa', 'Tiili'].map(k => (
-                  <button key={k} onClick={() => setKatto(k)} className="flex-1 py-2 rounded-xl text-sm font-medium border" style={btnStyle(katto === k)}>{k}</button>
-                ))}
-              </div>
-            </div>
+            {/* Katto + Runko — only for demolition sites */}
+            {kohde_tyyppi === 'Purettava kohde' && (
+              <>
+                <div className="bg-white rounded-2xl p-4 shadow-sm">
+                  <p className="text-xs font-semibold mb-2" style={{ color: 'var(--muted)' }}>KATTO</p>
+                  <div className="flex gap-2">
+                    {['Pelti', 'Huopa', 'Tiili'].map(k => (
+                      <button key={k} onClick={() => setKatto(k)} className="flex-1 py-2 rounded-xl text-sm font-medium border" style={btnStyle(katto === k)}>{k}</button>
+                    ))}
+                  </div>
+                </div>
 
-            {/* Runko */}
-            <div className="bg-white rounded-2xl p-4 shadow-sm">
-              <p className="text-xs font-semibold mb-2" style={{ color: 'var(--muted)' }}>RUNKO</p>
-              <div className="flex gap-2">
-                {['Puu', 'Tiili', 'Betoni'].map(r => (
-                  <button key={r} onClick={() => setRunko(r)} className="flex-1 py-2 rounded-xl text-sm font-medium border" style={btnStyle(runko === r)}>{r}</button>
-                ))}
-              </div>
-            </div>
+                <div className="bg-white rounded-2xl p-4 shadow-sm">
+                  <p className="text-xs font-semibold mb-2" style={{ color: 'var(--muted)' }}>RUNKO</p>
+                  <div className="flex gap-2">
+                    {['Puu', 'Tiili', 'Betoni'].map(r => (
+                      <button key={r} onClick={() => setRunko(r)} className="flex-1 py-2 rounded-xl text-sm font-medium border" style={btnStyle(runko === r)}>{r}</button>
+                    ))}
+                  </div>
+                </div>
+              </>
+            )}
 
             <button onClick={() => setStep(2)} disabled={!address} className="w-full py-4 rounded-2xl text-white font-semibold mt-2 disabled:opacity-40" style={{ background: 'var(--accent)' }}>
               Seuraava →
