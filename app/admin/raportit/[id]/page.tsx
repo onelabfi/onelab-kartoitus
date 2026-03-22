@@ -27,7 +27,7 @@ export default function AdminSurveyDetailPage() {
     });
   }, [id]);
 
-  const updateSample = (sampleId: string, field: keyof Sample, value: boolean | string | null) =>
+  const updateSample = (sampleId: string, field: keyof Sample, value: boolean | string | number | null) =>
     setSamples(prev => prev.map(s => s.id === sampleId ? { ...s, [field]: value } : s));
 
   const save = async () => {
