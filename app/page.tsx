@@ -49,7 +49,7 @@ export default function LandingPage() {
                 <span style={{ color: '#2563EB' }}>tehokkaasti.</span>
               </h1>
               <p style={{ fontSize: 17, color: '#9CA3AF', lineHeight: 1.7, maxWidth: 480, marginBottom: 32 }}>
-                Mobiilisovellus asbestikartoittajille — kerää näytteet, dokumentoi kohteet ja lähetä asbestikartoitusraportti suoraan laboratorioon.
+                Mobiilisovellus asbestinäytteiden keräämiseen, dokumentointiin ja kuvaamiseen.
               </p>
               <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
                 <Link href="/login" style={{ background: 'linear-gradient(135deg,#1B3A6B,#2563EB)', color: '#fff', fontWeight: 700, fontSize: 16, padding: '16px 32px', borderRadius: 16, textDecoration: 'none', boxShadow: '0 8px 32px rgba(37,99,235,0.35)' }}>
