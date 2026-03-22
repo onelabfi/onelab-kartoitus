@@ -1,102 +1,122 @@
 'use client';
 export const dynamic = 'force-dynamic';
+
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
-import { useLang } from '@/lib/LangContext';
-import { useAuth } from '@/lib/AuthContext';
 import type { Survey } from '@/lib/supabase';
 
 export default function HomePage() {
-  const { t } = useLang();
-  const { userName } = useAuth();
   const [surveys, setSurveys] = useState<Survey[]>([]);
+  const [userName, setUserName] = useState('');
 
   useEffect(() => {
+    const name = localStorage.getItem('userName') || '';
+    setUserName(name);
     supabase.auth.getUser().then(({ data }) => {
       if (!data.user) return;
-      supabase.from('surveys').select('*').eq('user_id', data.user.id).then(({ data: s }) => {
-        if (s) setSurveys(s);
-      });
+      supabase.from('surveys').select('*').eq('user_id', data.user.id)
+        .then(({ data: s }) => { if (s) setSurveys(s); });
     });
   }, []);
 
-  const active = surveys.filter(s => ['draft', 'submitted'].includes(s.status)).length;
   const analyzing = surveys.filter(s => s.status === 'analyzing').length;
   const complete = surveys.filter(s => s.status === 'complete').length;
 
-  const hour = new Date().getHours();
-  const greeting = hour < 12 ? t('greeting') : hour < 18 ? 'Hyvää päivää' : 'Hyvää iltaa';
-
   return (
-    <div className="p-4 pt-8">
+    <div className="min-h-screen flex flex-col" style={{ background: 'var(--bg)' }}>
       {/* Header */}
-      <div className="mb-6">
-        <p className="text-sm font-medium" style={{ color: 'var(--muted)' }}>{greeting}{userName ? `, ${userName}` : ''}</p>
-        <h1 className="text-2xl font-bold mt-0.5" style={{ color: 'var(--primary)' }}>Asbestikartoitus</h1>
-      </div>
-
-      {/* Stats */}
-      <div className="grid grid-cols-3 gap-3 mb-6">
-        <StatCard label="Aktiiviset" value={active} color="#2563EB" />
-        <StatCard label="Odottaa tuloksia" value={analyzing} color="#F59E0B" />
-        <StatCard label="Valmiit raportit" value={complete} color="#10B981" />
-      </div>
-
-      {/* CTA */}
-      <Link href="/kartoitukset/uusi" className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl text-white font-semibold text-base shadow-sm" style={{ background: 'var(--accent)' }}>
-        <span className="text-xl">+</span> {t('newSurvey')}
-      </Link>
-
-      {/* Recent */}
-      {surveys.length > 0 && (
-        <div className="mt-6">
-          <h2 className="text-sm font-semibold mb-3" style={{ color: 'var(--muted)' }}>Viimeisimmät</h2>
-          <div className="space-y-2">
-            {surveys.slice(0, 3).map(s => (
-              <Link key={s.id} href={`/kartoitukset/${s.id}`} className="flex items-center justify-between bg-white rounded-xl px-4 py-3 shadow-sm">
-                <div>
-                  <p className="font-medium text-sm">{s.name}</p>
-                  <p className="text-xs mt-0.5" style={{ color: 'var(--muted)' }}>{s.city} · {new Date(s.date).toLocaleDateString('fi-FI')}</p>
-                </div>
-                <StatusBadge status={s.status} />
-              </Link>
-            ))}
+      <div className="px-6 pt-12 pb-6 text-center">
+        <h1 className="text-5xl font-black text-white tracking-tight mb-2">Kartoittaja</h1>
+        <p className="text-sm font-medium" style={{ color: 'var(--muted)' }}>
+          Asbestikartoitustyökalu remonttikohteisiin
+        </p>
+        {analyzing > 0 && (
+          <div className="mt-3 inline-flex items-center gap-2 bg-yellow-500/20 border border-yellow-500/30 rounded-full px-3 py-1">
+            <div className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
+            <span className="text-yellow-400 text-xs font-semibold">{analyzing} näytettä analysoinnissa</span>
           </div>
+        )}
+        {complete > 0 && (
+          <div className="mt-2 inline-flex items-center gap-2 bg-green-500/20 border border-green-500/30 rounded-full px-3 py-1 ml-2">
+            <div className="w-2 h-2 rounded-full bg-green-400" />
+            <span className="text-green-400 text-xs font-semibold">{complete} valmista raporttia</span>
+          </div>
+        )}
+      </div>
+
+      {/* Main menu buttons */}
+      <div className="px-4 space-y-3 flex-1">
+        <Link href="/kartoitukset/uusi" className="flex items-center gap-4 w-full px-5 py-4 rounded-2xl transition-all active:scale-95"
+          style={{ background: 'linear-gradient(135deg, #1B3A6B 0%, #1B2B4B 100%)', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style={{ background: 'rgba(255,255,255,0.1)' }}>
+            🔍
+          </div>
+          <div className="text-left">
+            <p className="text-white font-bold text-lg leading-tight">Uusi Kartoitus</p>
+            <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>Aloita uusi näytteiden keruu</p>
+          </div>
+          <span className="ml-auto text-white/40 text-xl">›</span>
+        </Link>
+
+        <Link href="/kartoitukset" className="flex items-center gap-4 w-full px-5 py-4 rounded-2xl transition-all active:scale-95"
+          style={{ background: 'linear-gradient(135deg, #2C2C2E 0%, #3A3A3C 100%)', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style={{ background: 'rgba(255,255,255,0.08)' }}>
+            📁
+          </div>
+          <div className="text-left">
+            <p className="text-white font-bold text-lg leading-tight">Omat Kartoitukset</p>
+            <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>{surveys.length} kartoitusta</p>
+          </div>
+          <span className="ml-auto text-white/40 text-xl">›</span>
+        </Link>
+
+        <Link href="/raportit" className="flex items-center gap-4 w-full px-5 py-4 rounded-2xl transition-all active:scale-95"
+          style={{ background: 'linear-gradient(135deg, #2C2C2E 0%, #3A3A3C 100%)', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style={{ background: 'rgba(255,255,255,0.08)' }}>
+            📄
+          </div>
+          <div className="text-left">
+            <p className="text-white font-bold text-lg leading-tight">Raportit</p>
+            <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>{complete} valmista</p>
+          </div>
+          <span className="ml-auto text-white/40 text-xl">›</span>
+        </Link>
+
+        <Link href="/asetukset" className="flex items-center gap-4 w-full px-5 py-4 rounded-2xl transition-all active:scale-95"
+          style={{ background: 'linear-gradient(135deg, #2C2C2E 0%, #3A3A3C 100%)', border: '1px solid rgba(255,255,255,0.08)' }}>
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style={{ background: 'rgba(255,255,255,0.08)' }}>
+            ⚙️
+          </div>
+          <div className="text-left">
+            <p className="text-white font-bold text-lg leading-tight">Ohjeet & Asetukset</p>
+            <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>Kieli, profiili</p>
+          </div>
+          <span className="ml-auto text-white/40 text-xl">›</span>
+        </Link>
+      </div>
+
+      {/* Photo panels at bottom */}
+      <div className="px-4 mt-6 mb-24 grid grid-cols-2 gap-3">
+        <div className="relative h-36 rounded-2xl overflow-hidden" style={{ background: '#2C2C2E' }}>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center">
+              <div className="text-3xl mb-1">⚠️</div>
+              <p className="text-yellow-400 text-xs font-bold">ASBESTI VAARA</p>
+            </div>
+          </div>
+          <div className="absolute inset-0 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(234,179,8,0.15), rgba(0,0,0,0.4))' }} />
         </div>
-      )}
-
-      {/* Analyysi footer */}
-      <p className="text-center text-xs mt-8" style={{ color: 'var(--muted)' }}>{t('analysisBy')}</p>
+        <div className="relative h-36 rounded-2xl overflow-hidden" style={{ background: '#2C2C2E' }}>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="text-center">
+              <div className="text-3xl mb-1">🔬</div>
+              <p className="text-blue-400 text-xs font-bold">ANALYYSI: ONELAB</p>
+            </div>
+          </div>
+          <div className="absolute inset-0 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(37,99,235,0.15), rgba(0,0,0,0.4))' }} />
+        </div>
+      </div>
     </div>
-  );
-}
-
-function StatCard({ label, value, color }: { label: string; value: number; color: string }) {
-  return (
-    <div className="bg-white rounded-xl p-3 shadow-sm text-center">
-      <p className="text-2xl font-bold" style={{ color }}>{value}</p>
-      <p className="text-[10px] mt-0.5 leading-tight" style={{ color: 'var(--muted)' }}>{label}</p>
-    </div>
-  );
-}
-
-function StatusBadge({ status }: { status: string }) {
-  const colors: Record<string, string> = {
-    draft: '#6B7280',
-    submitted: '#2563EB',
-    analyzing: '#F59E0B',
-    complete: '#10B981',
-  };
-  const labels: Record<string, string> = {
-    draft: 'Luonnos',
-    submitted: 'Lähetetty',
-    analyzing: 'Analysoinnissa',
-    complete: 'Valmis',
-  };
-  return (
-    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full text-white" style={{ background: colors[status] || '#6B7280' }}>
-      {labels[status] || status}
-    </span>
   );
 }

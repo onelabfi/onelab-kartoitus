@@ -1,9 +1,10 @@
 'use client';
+export const dynamic = 'force-dynamic';
+
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import BottomNav from '@/components/BottomNav';
-import { AuthProvider } from '@/lib/AuthContext';
 
 export default function UserLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -15,13 +16,11 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
   }, [router]);
 
   return (
-    <AuthProvider>
-      <div className="min-h-screen pb-20" style={{ background: 'var(--bg)' }}>
-        <div className="max-w-md mx-auto">
-          {children}
-        </div>
-        <BottomNav />
+    <div className="min-h-screen pb-20" style={{ background: '#1C1C1E' }}>
+      <div className="max-w-md mx-auto">
+        {children}
       </div>
-    </AuthProvider>
+      <BottomNav />
+    </div>
   );
 }
