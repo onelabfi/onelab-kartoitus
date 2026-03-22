@@ -3,16 +3,17 @@ export const dynamic = 'force-dynamic';
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import type { Survey } from '@/lib/supabase';
+import { useOnboarding } from '@/lib/useOnboarding';
 
 export default function HomePage() {
   const [surveys, setSurveys] = useState<Survey[]>([]);
-  const [userName, setUserName] = useState('');
+  const router = useRouter();
+  const { completed } = useOnboarding();
 
   useEffect(() => {
-    const name = localStorage.getItem('userName') || '';
-    setUserName(name);
     supabase.auth.getUser().then(({ data }) => {
       if (!data.user) return;
       supabase.from('surveys').select('*').eq('user_id', data.user.id)
@@ -47,17 +48,21 @@ export default function HomePage() {
 
       {/* Main menu buttons */}
       <div className="px-4 space-y-3 flex-1">
-        <Link href="/kartoitukset/uusi" className="flex items-center gap-4 w-full px-5 py-4 rounded-2xl transition-all active:scale-95"
+        <button
+          onClick={() => completed ? router.push('/kartoitukset/uusi') : router.push('/onboarding')}
+          className="flex items-center gap-4 w-full px-5 py-4 rounded-2xl transition-all active:scale-95 text-left"
           style={{ background: 'linear-gradient(135deg, #1B3A6B 0%, #1B2B4B 100%)', border: '1px solid rgba(255,255,255,0.08)' }}>
           <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style={{ background: 'rgba(255,255,255,0.1)' }}>
             🔍
           </div>
-          <div className="text-left">
+          <div className="text-left flex-1">
             <p className="text-white font-bold text-lg leading-tight">Uusi Kartoitus</p>
-            <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>Aloita uusi näytteiden keruu</p>
+            <p className="text-xs mt-0.5" style={{ color: completed ? 'rgba(255,255,255,0.5)' : '#FBBF24' }}>
+              {completed ? 'Aloita uusi näytteiden keruu' : 'Vaatii perehdytyksen'}
+            </p>
           </div>
           <span className="ml-auto text-white/40 text-xl">›</span>
-        </Link>
+        </button>
 
         <Link href="/kartoitukset" className="flex items-center gap-4 w-full px-5 py-4 rounded-2xl transition-all active:scale-95"
           style={{ background: 'linear-gradient(135deg, #2C2C2E 0%, #3A3A3C 100%)', border: '1px solid rgba(255,255,255,0.08)' }}>
@@ -89,7 +94,7 @@ export default function HomePage() {
             ⚙️
           </div>
           <div className="text-left">
-            <p className="text-white font-bold text-lg leading-tight">Ohjeet & Asetukset</p>
+            <p className="text-white font-bold text-lg leading-tight">Asetukset</p>
             <p className="text-xs mt-0.5" style={{ color: 'rgba(255,255,255,0.5)' }}>Kieli, profiili</p>
           </div>
           <span className="ml-auto text-white/40 text-xl">›</span>
@@ -98,15 +103,23 @@ export default function HomePage() {
 
       {/* Photo panels at bottom */}
       <div className="px-4 mt-6 mb-24 grid grid-cols-2 gap-3">
-        <div className="relative h-36 rounded-2xl overflow-hidden" style={{ background: '#2C2C2E' }}>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center">
-              <div className="text-3xl mb-1">⚠️</div>
-              <p className="text-yellow-400 text-xs font-bold">ASBESTI VAARA</p>
-            </div>
+        <button
+          onClick={() => router.push('/onboarding')}
+          className="relative h-36 rounded-2xl overflow-hidden w-full text-left active:scale-95 transition-all"
+          style={{
+            background: completed ? 'rgba(22,163,74,0.15)' : 'rgba(234,179,8,0.12)',
+            border: completed ? '1px solid rgba(34,197,94,0.4)' : '1px solid rgba(234,179,8,0.4)',
+          }}>
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-1 p-3">
+            <div className="text-3xl">{completed ? '✅' : '🔒'}</div>
+            <p className="text-xs font-bold text-center" style={{ color: completed ? '#4ade80' : '#FBBF24' }}>
+              {completed ? 'Perehdytys suoritettu' : 'Pakollinen perehdytys'}
+            </p>
+            <p className="text-[10px] text-center" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              {completed ? 'Valmis kartoittamaan' : 'Lue ennen kartoitusta'}
+            </p>
           </div>
-          <div className="absolute inset-0 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(234,179,8,0.15), rgba(0,0,0,0.4))' }} />
-        </div>
+        </button>
         <div className="relative h-36 rounded-2xl overflow-hidden" style={{ background: '#2C2C2E' }}>
           <div className="absolute inset-0 flex items-center justify-center">
             <div className="text-center">
