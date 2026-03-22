@@ -40,6 +40,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           {[
             { href: '/admin', label: 'Dashboard', icon: '📊' },
             { href: '/admin/raportit', label: 'Raportit', icon: '📋' },
+            { href: '/admin/asetukset', label: 'Asetukset', icon: '⚙️' },
           ].map(item => (
             <Link key={item.href} href={item.href} className={`flex items-center gap-3 px-5 py-3 text-sm font-medium transition-colors ${pathname === item.href ? 'bg-slate-800 text-white' : 'text-slate-300 hover:bg-slate-800'}`}>
               <span>{item.icon}</span>{item.label}

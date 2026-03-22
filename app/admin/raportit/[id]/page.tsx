@@ -1,7 +1,9 @@
 'use client';
 export const dynamic = 'force-dynamic';
+
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import type { Survey, Sample } from '@/lib/supabase';
 
@@ -9,12 +11,11 @@ const ASBESTOS_TYPES = ['Krysotiili', 'Antofylliitti', 'Amosiitti', 'Krokidoliit
 
 export default function AdminSurveyDetailPage() {
   const { id } = useParams<{ id: string }>();
+  const router = useRouter();
   const [survey, setSurvey] = useState<Survey | null>(null);
   const [samples, setSamples] = useState<Sample[]>([]);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [sending, setSending] = useState(false);
-  const [sent, setSent] = useState(false);
 
   useEffect(() => {
     Promise.all([
@@ -26,9 +27,8 @@ export default function AdminSurveyDetailPage() {
     });
   }, [id]);
 
-  const updateSample = (sampleId: string, field: keyof Sample, value: boolean | string | null) => {
+  const updateSample = (sampleId: string, field: keyof Sample, value: boolean | string | null) =>
     setSamples(prev => prev.map(s => s.id === sampleId ? { ...s, [field]: value } : s));
-  };
 
   const save = async () => {
     setSaving(true);
@@ -40,85 +40,180 @@ export default function AdminSurveyDetailPage() {
       }).eq('id', s.id);
     }
     await supabase.from('surveys').update({ status: 'analyzing' }).eq('id', id);
+    if (survey) setSurvey({ ...survey, status: 'analyzing' });
     setSaving(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
 
-  const sendReport = async () => {
-    setSending(true);
-    await supabase.from('surveys').update({ status: 'complete' }).eq('id', id);
-    setSending(false);
-    setSent(true);
-    if (survey) setSurvey({ ...survey, status: 'complete' });
-  };
+  if (!survey) return <div className="p-8 text-center text-gray-400">Ladataan...</div>;
 
-  if (!survey) return <div className="p-8 text-center text-gray-400">...</div>;
+  const statusColors: Record<string, string> = {
+    draft: '#6B7280',
+    submitted: '#2563EB',
+    analyzing: '#F59E0B',
+    complete: '#10B981',
+  };
+  const statusLabels: Record<string, string> = {
+    draft: 'Luonnos',
+    submitted: 'Lähetetty',
+    analyzing: 'Analysoinnissa',
+    complete: 'Valmis',
+  };
+  const allResultsIn = samples.length > 0 && samples.every(s => s.asbestos_detected !== null);
 
   return (
-    <div className="p-6">
+    <div className="p-6 max-w-3xl">
+      {/* Header */}
       <div className="flex items-start justify-between mb-6">
         <div>
+          <button
+            onClick={() => router.back()}
+            className="text-sm text-gray-500 hover:text-gray-700 mb-2 flex items-center gap-1"
+          >
+            ← Takaisin
+          </button>
           <h1 className="text-xl font-bold text-gray-900">{survey.name}</h1>
-          <p className="text-sm text-gray-500">{survey.city} · {new Date(survey.date).toLocaleDateString('fi-FI')}</p>
-          {(survey.kohde_tyyppi || survey.katto || survey.runko) && (
+          <p className="text-sm text-gray-500 mt-0.5">
+            {survey.city} · {new Date(survey.date).toLocaleDateString('fi-FI')}
+          </p>
+          {survey.kohde_tyyppi && (
             <p className="text-xs text-gray-400 mt-0.5">
-              {[survey.kohde_tyyppi, survey.katto && `Katto: ${survey.katto}`, survey.runko && `Runko: ${survey.runko}`].filter(Boolean).join(' · ')}
+              {survey.kohde_tyyppi}
+              {survey.katto ? ` · Katto: ${survey.katto}` : ''}
+              {survey.runko ? ` · Runko: ${survey.runko}` : ''}
             </p>
           )}
         </div>
-        <div className="flex gap-2">
-          <button onClick={save} disabled={saving} className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold disabled:opacity-50">
-            {saving ? '...' : saved ? '✓ Tallennettu' : 'Tallenna'}
-          </button>
-          <button onClick={sendReport} disabled={sending || sent} className="px-4 py-2 rounded-lg bg-green-600 text-white text-sm font-semibold disabled:opacity-50">
-            {sent ? '✓ Lähetetty' : sending ? '...' : 'Lähetä raportti'}
-          </button>
+        <div className="flex flex-col items-end gap-2">
+          <span
+            className="text-xs font-semibold px-2 py-0.5 rounded-full text-white"
+            style={{ background: statusColors[survey.status] }}
+          >
+            {statusLabels[survey.status]}
+          </span>
+          <div className="flex gap-2">
+            <button
+              onClick={save}
+              disabled={saving}
+              className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold disabled:opacity-50"
+            >
+              {saving ? '...' : saved ? '✓ Tallennettu' : 'Tallenna tulokset'}
+            </button>
+            {allResultsIn && (
+              <Link
+                href={`/admin/raportit/${id}/report`}
+                className="px-4 py-2 rounded-lg bg-green-600 text-white text-sm font-semibold"
+              >
+                Avaa raportti →
+              </Link>
+            )}
+          </div>
         </div>
       </div>
 
+      {/* Samples */}
       <div className="space-y-4">
-        {samples.map((s, i) => (
-          <div key={s.id} className="bg-white rounded-xl p-5 shadow-sm">
-            <div className="flex items-center justify-between mb-3">
-              <span className="font-bold text-sm">{s.sample_code || `N-${String(i+1).padStart(3,'0')}`}</span>
-              <div className="text-right">
-                <span className="text-sm text-gray-500">
-                  {s.location}{s.sub_location ? ` · ${s.sub_location}` : ''}
-                </span>
-                {(s.materials && s.materials.length > 0) ? (
-                  <p className="text-xs text-gray-400">{s.materials.join(', ')}{s.material_muu ? `, ${s.material_muu}` : ''}</p>
-                ) : s.material ? (
-                  <p className="text-xs text-gray-400">{s.material}</p>
-                ) : null}
-                {s.area_m2 != null && (
-                  <p className="text-xs text-gray-400">{s.area_m2} m²</p>
+        {samples.map((s, i) => {
+          const locationStr = [s.location, s.sub_location].filter(Boolean).join(' · ');
+          const materialStr = s.materials?.length ? s.materials.join(', ') : s.material;
+          return (
+            <div key={s.id} className="bg-white rounded-xl p-5 shadow-sm border border-gray-100">
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <span className="font-bold text-sm text-gray-900">
+                    {s.sample_code || `N-${String(i + 1).padStart(3, '0')}`}
+                  </span>
+                  <span className="text-gray-500 text-sm ml-2">{locationStr}</span>
+                  {materialStr && (
+                    <span className="text-gray-400 text-sm ml-1">· {materialStr}</span>
+                  )}
+                  {s.area_m2 != null && (
+                    <span className="text-gray-400 text-xs ml-1">· {s.area_m2} m²</span>
+                  )}
+                </div>
+                {s.asbestos_detected !== null && (
+                  <span
+                    className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                      s.asbestos_detected
+                        ? 'bg-red-100 text-red-700'
+                        : 'bg-green-100 text-green-700'
+                    }`}
+                  >
+                    {s.asbestos_detected ? '⚠ Asbestia' : '✓ Puhdas'}
+                  </span>
                 )}
               </div>
-            </div>
-            {s.photo_url && <img src={s.photo_url} alt="" className="w-full h-40 object-cover rounded-lg mb-3" />}
-            {s.description && <p className="text-sm text-gray-500 mb-3">{s.description}</p>}
-            {/* Results */}
-            <div className="border-t pt-3 space-y-3" style={{ borderColor: '#E5E7EB' }}>
-              <div className="flex gap-2">
-                <button onClick={() => updateSample(s.id, 'asbestos_detected', false)} className="flex-1 py-2 rounded-lg text-sm font-semibold border transition-colors" style={{ borderColor: s.asbestos_detected === false ? '#10B981' : '#E5E7EB', color: s.asbestos_detected === false ? '#10B981' : '#6B7280', background: s.asbestos_detected === false ? '#F0FDF4' : 'white' }}>
-                  ✓ Ei asbestia
-                </button>
-                <button onClick={() => updateSample(s.id, 'asbestos_detected', true)} className="flex-1 py-2 rounded-lg text-sm font-semibold border transition-colors" style={{ borderColor: s.asbestos_detected === true ? '#EF4444' : '#E5E7EB', color: s.asbestos_detected === true ? '#EF4444' : '#6B7280', background: s.asbestos_detected === true ? '#FEF2F2' : 'white' }}>
-                  ⚠ Asbestia
-                </button>
-              </div>
-              {s.asbestos_detected && (
-                <select value={s.asbestos_type || ''} onChange={e => updateSample(s.id, 'asbestos_type', e.target.value)} className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500" style={{ borderColor: '#E5E7EB' }}>
-                  <option value="">Valitse tyyppi...</option>
-                  {ASBESTOS_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
-                </select>
+
+              {s.photo_url && (
+                <img
+                  src={s.photo_url}
+                  alt=""
+                  className="w-full h-40 object-cover rounded-lg mb-3"
+                />
               )}
-              <textarea value={s.lab_notes || ''} onChange={e => updateSample(s.id, 'lab_notes', e.target.value)} rows={2} placeholder="Laboratoriomuistiinpanot..." className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 resize-none" style={{ borderColor: '#E5E7EB' }} />
+              {s.description && (
+                <p className="text-sm text-gray-500 mb-3 italic">{s.description}</p>
+              )}
+
+              {/* Result buttons */}
+              <div className="border-t border-gray-100 pt-3 space-y-3">
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => updateSample(s.id, 'asbestos_detected', false)}
+                    className="flex-1 py-2.5 rounded-lg text-sm font-semibold border-2 transition-colors"
+                    style={{
+                      borderColor: s.asbestos_detected === false ? '#10B981' : '#E5E7EB',
+                      color: s.asbestos_detected === false ? '#10B981' : '#6B7280',
+                      background: s.asbestos_detected === false ? '#F0FDF4' : 'white',
+                    }}
+                  >
+                    ✓ Ei asbestia
+                  </button>
+                  <button
+                    onClick={() => updateSample(s.id, 'asbestos_detected', true)}
+                    className="flex-1 py-2.5 rounded-lg text-sm font-semibold border-2 transition-colors"
+                    style={{
+                      borderColor: s.asbestos_detected === true ? '#EF4444' : '#E5E7EB',
+                      color: s.asbestos_detected === true ? '#EF4444' : '#6B7280',
+                      background: s.asbestos_detected === true ? '#FEF2F2' : 'white',
+                    }}
+                  >
+                    ⚠ Sisältää asbestia
+                  </button>
+                </div>
+                {s.asbestos_detected && (
+                  <select
+                    value={s.asbestos_type || ''}
+                    onChange={e => updateSample(s.id, 'asbestos_type', e.target.value)}
+                    className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500"
+                  >
+                    <option value="">Valitse asbestityyppi...</option>
+                    {ASBESTOS_TYPES.map(t => (
+                      <option key={t} value={t}>
+                        {t}
+                      </option>
+                    ))}
+                  </select>
+                )}
+                <textarea
+                  value={s.lab_notes || ''}
+                  onChange={e => updateSample(s.id, 'lab_notes', e.target.value)}
+                  rows={2}
+                  placeholder="Laboratoriomuistiinpanot (valinnainen)..."
+                  className="w-full border rounded-lg px-3 py-2 text-sm outline-none focus:border-blue-500 resize-none border-gray-200"
+                />
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
+
+      {!allResultsIn && samples.length > 0 && (
+        <p className="text-center text-sm text-gray-400 mt-4">
+          Syötä kaikkien {samples.length} näytteen tulokset ennen raportin luomista.
+        </p>
+      )}
     </div>
   );
 }

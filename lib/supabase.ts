@@ -12,6 +12,18 @@ export type Survey = {
   kohde_muu: string | null;
   katto: string | null;
   runko: string | null;
+  report_sent_at: string | null;
+};
+
+export type AppSettings = {
+  id: string;
+  logo_url: string | null;
+  company_name: string;
+  kartoittaja_name: string;
+  kartoittaja_title: string;
+  kartoittaja_credentials: string;
+  signature_url: string | null;
+  updated_at: string;
 };
 
 export type Sample = {
