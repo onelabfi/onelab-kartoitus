@@ -1,6 +1,6 @@
 'use client';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { type Lang, detectLang, translations, t as translate } from './i18n';
+import { type Lang, translations, t as translate } from './i18n';
 
 type LangContextType = {
   lang: Lang;
@@ -18,7 +18,11 @@ export function LangProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLangState] = useState<Lang>('fi');
 
   useEffect(() => {
-    setLangState(detectLang());
+    // Only use stored preference, never auto-detect browser language
+    const stored = localStorage.getItem('lang') as Lang;
+    if (stored && ['fi', 'en', 'sv'].includes(stored)) {
+      setLangState(stored);
+    }
   }, []);
 
   const setLang = (l: Lang) => {

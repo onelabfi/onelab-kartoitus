@@ -61,6 +61,11 @@ export default function AdminSurveyDetailPage() {
         <div>
           <h1 className="text-xl font-bold text-gray-900">{survey.name}</h1>
           <p className="text-sm text-gray-500">{survey.city} · {new Date(survey.date).toLocaleDateString('fi-FI')}</p>
+          {(survey.kohde_tyyppi || survey.katto || survey.runko) && (
+            <p className="text-xs text-gray-400 mt-0.5">
+              {[survey.kohde_tyyppi, survey.katto && `Katto: ${survey.katto}`, survey.runko && `Runko: ${survey.runko}`].filter(Boolean).join(' · ')}
+            </p>
+          )}
         </div>
         <div className="flex gap-2">
           <button onClick={save} disabled={saving} className="px-4 py-2 rounded-lg bg-blue-600 text-white text-sm font-semibold disabled:opacity-50">
@@ -77,7 +82,19 @@ export default function AdminSurveyDetailPage() {
           <div key={s.id} className="bg-white rounded-xl p-5 shadow-sm">
             <div className="flex items-center justify-between mb-3">
               <span className="font-bold text-sm">{s.sample_code || `N-${String(i+1).padStart(3,'0')}`}</span>
-              <span className="text-sm text-gray-500">{s.location} · {s.material}</span>
+              <div className="text-right">
+                <span className="text-sm text-gray-500">
+                  {s.location}{s.sub_location ? ` · ${s.sub_location}` : ''}
+                </span>
+                {(s.materials && s.materials.length > 0) ? (
+                  <p className="text-xs text-gray-400">{s.materials.join(', ')}{s.material_muu ? `, ${s.material_muu}` : ''}</p>
+                ) : s.material ? (
+                  <p className="text-xs text-gray-400">{s.material}</p>
+                ) : null}
+                {s.area_m2 != null && (
+                  <p className="text-xs text-gray-400">{s.area_m2} m²</p>
+                )}
+              </div>
             </div>
             {s.photo_url && <img src={s.photo_url} alt="" className="w-full h-40 object-cover rounded-lg mb-3" />}
             {s.description && <p className="text-sm text-gray-500 mb-3">{s.description}</p>}

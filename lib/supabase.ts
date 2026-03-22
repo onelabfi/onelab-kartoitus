@@ -8,6 +8,10 @@ export type Survey = {
   date: string;
   status: 'draft' | 'submitted' | 'analyzing' | 'complete';
   created_at: string;
+  kohde_tyyppi: string | null;
+  kohde_muu: string | null;
+  katto: string | null;
+  runko: string | null;
 };
 
 export type Sample = {
@@ -22,6 +26,12 @@ export type Sample = {
   asbestos_type: string | null;
   lab_notes: string | null;
   created_at: string;
+  sub_location: string | null;
+  area_m2: number | null;
+  materials: string[] | null;
+  location_muu: string | null;
+  material_muu: string | null;
+  sub_location_muu: string | null;
 };
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co';

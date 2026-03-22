@@ -1,0 +1,10 @@
+ALTER TABLE surveys ADD COLUMN IF NOT EXISTS kohde_tyyppi text;
+ALTER TABLE surveys ADD COLUMN IF NOT EXISTS kohde_muu text;
+ALTER TABLE surveys ADD COLUMN IF NOT EXISTS katto text;
+ALTER TABLE surveys ADD COLUMN IF NOT EXISTS runko text;
+ALTER TABLE survey_samples ADD COLUMN IF NOT EXISTS sub_location text;
+ALTER TABLE survey_samples ADD COLUMN IF NOT EXISTS area_m2 numeric;
+ALTER TABLE survey_samples ADD COLUMN IF NOT EXISTS materials text[];
+ALTER TABLE survey_samples ADD COLUMN IF NOT EXISTS location_muu text;
+ALTER TABLE survey_samples ADD COLUMN IF NOT EXISTS material_muu text;
+ALTER TABLE survey_samples ADD COLUMN IF NOT EXISTS sub_location_muu text;

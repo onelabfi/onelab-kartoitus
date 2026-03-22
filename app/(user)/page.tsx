@@ -38,9 +38,9 @@ export default function HomePage() {
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3 mb-6">
-        <StatCard label={t('activeSurveys')} value={active} color="#2563EB" />
-        <StatCard label={t('waitingResults')} value={analyzing} color="#F59E0B" />
-        <StatCard label={t('readyReports')} value={complete} color="#10B981" />
+        <StatCard label="Aktiiviset" value={active} color="#2563EB" />
+        <StatCard label="Odottaa tuloksia" value={analyzing} color="#F59E0B" />
+        <StatCard label="Valmiit raportit" value={complete} color="#10B981" />
       </div>
 
       {/* CTA */}
