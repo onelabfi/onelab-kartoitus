@@ -73,7 +73,7 @@ export default function AsbestiRemonttiPage() {
           </p>
 
           <div style={danger} role="alert" aria-label="Tärkeä varoitus">
-            <p style={{ fontWeight: 700, marginBottom: 8, color: '#FCA5A5' }}>🚨 Älä purka ennen kartoitusta</p>
+            <p style={{ fontWeight: 700, marginBottom: 8, color: '#FCA5A5' }}>🚨 Älä pura ennen kartoitusta</p>
             <p style={{ ...muted, fontSize: 14, lineHeight: 1.7, margin: 0 }}>
               Asbestikuituja vapautuu ilmaan kun asbestipitoisia materiaaleja rikotaan, hiotaan tai leikataan. Hengitetyt kuidut aiheuttavat vakavia keuhkosairauksia — asbestoosin, keuhkopussin muutoksia ja syöpää. Oireet voivat ilmetä vasta 20–40 vuotta altistuksen jälkeen.
             </p>
