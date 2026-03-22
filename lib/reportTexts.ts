@@ -48,6 +48,14 @@ function getMaterial(s: { material: string; materials: string[] | null; material
   return (s.material || '').toLowerCase();
 }
 
+// Map sub_location codes to Finnish genitive
+function subLocGenitive(sub: string | null | undefined): string {
+  if (!sub) return '';
+  if (sub.includes('Seinä') || sub.startsWith('S')) return 'seinän ';
+  if (sub.includes('Lattia') || sub.startsWith('L')) return 'lattian ';
+  return '';
+}
+
 export function generateYleista(
   surveyName: string,
   city: string,
@@ -55,6 +63,7 @@ export function generateYleista(
   samples: Array<{
     asbestos_detected: boolean | null;
     location: string;
+    sub_location?: string | null;
     material: string;
     materials: string[] | null;
     material_muu?: string | null;
@@ -69,33 +78,34 @@ export function generateYleista(
   const isPurku = kohde_tyyppi?.toLowerCase().includes('puret') || kohde_tyyppi?.toLowerCase().includes('purettava');
   const isPinta = kohde_tyyppi?.toLowerCase().includes('pinta');
 
-  let base = `Kohde ${surveyName} sijaitsee ${city || 'kohteessa'}. `;
-
+  // Opening sentence: "Kohteessa X ollaan tekemässä pintaremonttia/purkutyötä."
+  let base: string;
   if (isPurku) {
     if (katto && runko) {
-      // e.g. "Kohteessa on tarkoitus purkaa peltikattoinen puurakennus."
       const kattoAdj = katto.toLowerCase() + 'kattoinen';
       const runkoNoun = runko.toLowerCase() + 'rakennus';
-      base += `Kohteessa on tarkoitus purkaa ${kattoAdj} ${runkoNoun}. `;
+      base = `Kohteessa ${surveyName} on tarkoitus purkaa ${kattoAdj} ${runkoNoun}. `;
     } else {
-      base += 'Kohteessa on tarkoitus suorittaa purkutyö. ';
+      base = `Kohteessa ${surveyName} ollaan tekemässä purkutyötä. `;
     }
   } else if (isPinta) {
-    base += 'Kohteessa on tarkoitus suorittaa pintaremontti. ';
+    base = `Kohteessa ${surveyName} ollaan tekemässä pintaremonttia. `;
+  } else {
+    base = `Kohde ${surveyName} kartoitettiin asbestin varalta. `;
   }
 
   base +=
     'Kohde kartoitettiin aistinvaraisesti ja näytteistettiin niiltä osin, kun oli epäiltävää, että materiaalissa saattaa olla asbestia tai muita haitta-aineita. ';
 
   if (hasAsbestos) {
-    // Build list: "Keittiön liima, WC:n laatta"
+    // Build list: "KPH:n seinän laatta, laasti" / "KPH:n lattian laasti"
     const parts = asbestosSamples.map(s => {
       const loc = toGenitive(s.location);
+      const sub = subLocGenitive(s.sub_location);
       const mat = getMaterial(s);
-      return `${loc} ${mat}`;
+      return `${loc} ${sub}${mat}`;
     });
 
-    // Join with comma except last which uses " ja "
     let list: string;
     if (parts.length === 1) {
       list = parts[0];
