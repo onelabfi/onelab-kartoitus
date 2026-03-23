@@ -15,8 +15,9 @@ export default function AdminReportsPage() {
     });
   }, []);
 
-  const statusColors: Record<string, string> = { draft: '#6B7280', submitted: '#2563EB', analyzing: '#F59E0B', complete: '#10B981' };
-  const statusLabels: Record<string, string> = { draft: 'Luonnos', submitted: 'Lähetetty', analyzing: 'Analysoinnissa', complete: 'Valmis' };
+  const statusColors: Record<string, string> = { draft: '#6B7280', pending_payment: '#F59E0B', submitted: '#2563EB', analyzing: '#F59E0B', complete: '#10B981' };
+  const statusLabels: Record<string, string> = { draft: 'Luonnos', pending_payment: 'Odottaa maksua', submitted: 'Lähetetty', analyzing: 'Analysoinnissa', complete: 'Valmis' };
+  const isPaid = (s: Survey) => s.status !== 'pending_payment' && s.status !== 'draft';
 
   return (
     <div className="p-6">
@@ -28,6 +29,7 @@ export default function AdminReportsPage() {
               <th className="text-left px-5 py-3 font-medium">Asiakas</th>
               <th className="text-left px-5 py-3 font-medium">Kohde</th>
               <th className="text-left px-5 py-3 font-medium">Päivämäärä</th>
+              <th className="text-left px-5 py-3 font-medium">Maksu</th>
               <th className="text-left px-5 py-3 font-medium">Tila</th>
             </tr>
           </thead>
@@ -48,8 +50,14 @@ export default function AdminReportsPage() {
                 </td>
                 <td className="px-5 py-3 text-gray-500">{new Date(s.date).toLocaleDateString('fi-FI')}</td>
                 <td className="px-5 py-3">
-                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full text-white" style={{ background: statusColors[s.status] }}>
-                    {statusLabels[s.status]}
+                  {isPaid(s)
+                    ? <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-green-100 text-green-700">✓ Maksettu</span>
+                    : <span className="inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full bg-red-100 text-red-600">✗ Maksamatta</span>
+                  }
+                </td>
+                <td className="px-5 py-3">
+                  <span className="text-xs font-semibold px-2 py-0.5 rounded-full text-white" style={{ background: statusColors[s.status] || '#6B7280' }}>
+                    {statusLabels[s.status] || s.status}
                   </span>
                 </td>
               </tr>
