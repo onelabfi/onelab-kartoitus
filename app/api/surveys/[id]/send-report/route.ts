@@ -42,27 +42,29 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     return NextResponse.json({ error: 'RESEND_API_KEY ei ole asetettu palvelimella' }, { status: 500 });
   }
 
-  try {
-    await getResend().emails.send({
-      from: 'Asbestikartoitus <noreply@asbesti.pro>',
-      to: recipientEmail,
-      subject: `Asbestikartoitusraportti valmis — ${survey.name}`,
-      html: `
-        <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 24px;">
-          <h2 style="color: #1B2B4B;">Kartoitusraportti on valmis</h2>
-          <p>Hei,</p>
-          <p>Asbestikartoitusraporttisi kohteesta <strong>${survey.name}</strong> on valmis.</p>
-          <a href="${reportLink}" style="display: inline-block; background: #2563EB; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 16px 0;">
-            Avaa raportti
-          </a>
-          <p style="color: #6B7280; font-size: 12px; margin-top: 24px;">Analyysi: Onelab Oy</p>
-        </div>
-      `,
-    });
-  } catch (e) {
-    console.error('Email send failed:', e);
-    return NextResponse.json({ error: 'Sähköpostin lähetys epäonnistui' }, { status: 500 });
+  const { data: emailData, error: emailError } = await getResend().emails.send({
+    from: 'Asbestikartoitus <noreply@asbesti.pro>',
+    to: recipientEmail,
+    subject: `Asbestikartoitusraportti valmis — ${survey.name}`,
+    html: `
+      <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 24px;">
+        <h2 style="color: #1B2B4B;">Kartoitusraportti on valmis</h2>
+        <p>Hei,</p>
+        <p>Asbestikartoitusraporttisi kohteesta <strong>${survey.name}</strong> on valmis.</p>
+        <a href="${reportLink}" style="display: inline-block; background: #2563EB; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: bold; margin: 16px 0;">
+          Avaa raportti
+        </a>
+        <p style="color: #6B7280; font-size: 12px; margin-top: 24px;">Analyysi: Onelab Oy</p>
+      </div>
+    `,
+  });
+
+  if (emailError) {
+    console.error('Resend error:', JSON.stringify(emailError));
+    return NextResponse.json({ error: `Sähköpostin lähetys epäonnistui: ${emailError.message}` }, { status: 500 });
   }
+
+  console.log('Email sent successfully:', emailData?.id);
 
   return NextResponse.json({ ok: true });
 }
