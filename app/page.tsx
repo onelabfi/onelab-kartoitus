@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import AuthRedirect from './AuthRedirect';
 import DemoSection from './DemoSection';
 
@@ -40,7 +39,7 @@ export default function LandingPage() {
 
         <main>
           {/* HERO */}
-          <section aria-label="Esittely" style={{ maxWidth: 1100, margin: '0 auto', padding: '80px 1.5rem 60px', display: 'flex', alignItems: 'center', gap: 60, flexWrap: 'wrap' }}>
+          <section aria-label="Esittely" style={{ maxWidth: 1100, margin: '0 auto', padding: '80px 1.5rem 40px', display: 'flex', alignItems: 'center', gap: 60, flexWrap: 'wrap' }}>
             <div style={{ flex: '1 1 400px' }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(37,99,235,0.15)', border: '1px solid rgba(37,99,235,0.3)', borderRadius: 999, padding: '6px 14px', marginBottom: 24 }}>
                 <span style={{ color: '#60A5FA', fontSize: 12, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>Analyysi: Onelab Oy</span>
@@ -61,19 +60,13 @@ export default function LandingPage() {
                 </a>
               </div>
             </div>
-            <div style={{ flex: '0 0 auto', display: 'flex', justifyContent: 'center' }}>
-              <div style={{ position: 'relative', width: 260 }}>
-                <div style={{ borderRadius: 44, overflow: 'hidden', border: '4px solid #1C1C1E', boxShadow: '0 40px 80px rgba(0,0,0,0.6)', aspectRatio: '9/19.5' }}>
-                  <Image src="/hero.png" alt="Onelab Kartoittaja mobiilisovellus asbestikartoitukseen" style={{ objectFit: 'cover' }} width={260} height={565} priority />
-                </div>
-              </div>
-            </div>
           </section>
 
+          {/* DEMO — phone mockup + slideshow */}
           <DemoSection />
 
           {/* FEATURES */}
-          <section aria-label="Ominaisuudet" style={{ background: 'rgba(255,255,255,0.02)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', padding: '72px 1.5rem' }}>
+          <section aria-label="Ominaisuudet" style={{ background: 'rgba(255,255,255,0.02)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', padding: '72px 1.5rem', marginTop: 60 }}>
             <div style={{ maxWidth: 1100, margin: '0 auto' }}>
               <h2 style={{ fontSize: 'clamp(1.5rem,3vw,2.2rem)', fontWeight: 800, textAlign: 'center', marginBottom: 8 }}>Kaikki mitä tarvitset asbestikartoitukseen</h2>
               <p style={{ color: '#9CA3AF', textAlign: 'center', marginBottom: 48, fontSize: 15 }}>Suunniteltu kentällä työskenteleville kartoittajille</p>
@@ -106,8 +99,16 @@ export default function LandingPage() {
 
           {/* CTA */}
           <section aria-label="Aloita" style={{ background: 'linear-gradient(135deg, rgba(27,58,107,0.4), rgba(37,99,235,0.15))', border: '1px solid rgba(37,99,235,0.2)', margin: '0 1.5rem 80px', borderRadius: 28, padding: '56px 32px', textAlign: 'center', maxWidth: 900, marginLeft: 'auto', marginRight: 'auto' }}>
-            <h2 style={{ fontSize: 'clamp(1.5rem,3vw,2rem)', fontWeight: 800, marginBottom: 12 }}>Valmis aloittamaan?</h2>
-            <p style={{ color: '#9CA3AF', fontSize: 15, marginBottom: 32 }}>Rekisteröidy ilmaiseksi ja aloita ensimmäinen asbestikartoitus tänään.</p>
+            <h2 style={{ fontSize: 'clamp(1.5rem,3vw,2rem)', fontWeight: 800, marginBottom: 16 }}>
+              Ilman kartoittajaa —<br />vain näytteen hinta
+            </h2>
+            <p style={{ color: '#9CA3AF', fontSize: 16, marginBottom: 8, lineHeight: 1.8 }}>
+              Saat selkeän vastauksen:
+            </p>
+            <p style={{ color: '#D1D5DB', fontSize: 16, marginBottom: 32, lineHeight: 1.8 }}>
+              – Sisältääkö asbestia<br />
+              – Miten purkaa turvallisesti
+            </p>
             <Link href="/login" style={{ background: 'linear-gradient(135deg,#1B3A6B,#2563EB)', color: '#fff', fontWeight: 700, fontSize: 16, padding: '18px 40px', borderRadius: 16, textDecoration: 'none', display: 'inline-block' }}>
               Luo tili ilmaiseksi →
             </Link>
