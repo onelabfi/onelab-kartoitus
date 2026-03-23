@@ -33,7 +33,7 @@ export default function AdminReportsPage() {
           <tbody>
             {surveys.map(s => (
               <tr key={s.id} className="border-b hover:bg-gray-50">
-                <td className="px-5 py-3">{s.user_id.slice(0, 8)}...</td>
+                <td className="px-5 py-3">{s.tilaaja_nimi || s.user_id.slice(0, 8) + '...'}</td>
                 <td className="px-5 py-3">
                   <Link href={`/admin/raportit/${s.id}`} className="text-blue-600 hover:underline font-medium">{s.name}</Link>
                   <p className="text-xs text-gray-400">{s.city}</p>
