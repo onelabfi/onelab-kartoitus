@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import AuthRedirect from './AuthRedirect';
+import DemoSection from './DemoSection';
 
 const features = [
   { icon: '📍', title: 'Google Maps -osoitehaku', desc: 'Kohteen osoite täydentyy automaattisesti — ei kirjoitusvirheitä, ei turhaa aikaa.' },
@@ -68,6 +69,8 @@ export default function LandingPage() {
               </div>
             </div>
           </section>
+
+          <DemoSection />
 
           {/* FEATURES */}
           <section aria-label="Ominaisuudet" style={{ background: 'rgba(255,255,255,0.02)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', padding: '72px 1.5rem' }}>
