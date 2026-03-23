@@ -95,7 +95,7 @@ export function generateYleista(
   }
 
   base +=
-    'Kohde tarkastettiin aistinvaraisesti ja näytteitä otettiin epäilyttävistä materiaaleista mahdollisen asbestin tai muiden haitta-aineiden selvittämiseksi. ';
+    'Kohde tarkastettiin aistinvaraisesti ja näytteitä otettiin epäilyttävistä materiaaleista mahdollisen asbestin tai muiden haitta-aineiden selvittämistä varten. ';
 
   if (hasAsbestos) {
     // Build list: "KPH:n seinän laatta, laasti" / "KPH:n lattian laasti"
@@ -116,11 +116,13 @@ export function generateYleista(
     base += `${list.charAt(0).toUpperCase() + list.slice(1)} sisältää asbestia.`;
 
     if (hasClean) {
-      base += ' Muut tutkitut materiaalit voidaan purkaa normaalipurkuna.';
+      base += ' Muut tutkitut materiaalit voidaan tulosten perusteella purkaa normaalipurkuna.';
     }
   } else {
-    base += 'Materiaalit voidaan purkaa normaalipurkuna.';
+    base += 'Materiaalit voidaan tulosten perusteella purkaa normaalipurkuna.';
   }
+
+  base += ' Tulokset perustuvat näytteenottoon ja laboratorioanalyysiin.';
 
   return base;
 }
