@@ -7,7 +7,7 @@ const features = [
   { icon: '📄', title: 'Automaattinen PDF-raportti', desc: 'Laboratorio syöttää tulokset ja järjestelmä luo valmiin asbestikartoitusraportin.' },
   { icon: '🔔', title: 'Reaaliaikainen tilastatus', desc: 'Näet heti kun analyysi on valmis ja raportti lähetetty.' },
   { icon: '🔒', title: 'Pakollinen perehdytys', desc: 'Sovellus varmistaa että kartoittaja on perehtynyt turvalliseen näytteenottoon ennen aloitusta.' },
-  { icon: '🏗️', title: 'Kohteen tyypin mukainen raportti', desc: 'Pintaremontti, purkukohde tai muu — raportti mukautuu automaattisesti.' },
+  { icon: '📧', title: 'Raportti suoraan sähköpostiin', desc: 'Valmis kartoitusraportti toimitetaan automaattisesti sähköpostiisi heti kun laboratorioanalyysi on valmis.' },
 ];
 
 const steps = [
