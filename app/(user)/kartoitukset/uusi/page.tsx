@@ -393,7 +393,7 @@ export default function UusiKartoitusPage() {
                   {s.photoPreview && <img src={s.photoPreview} className="mt-2 w-full h-32 object-cover rounded-xl" alt="Näytteen kuva" />}
 
                   {/* Kuva näytepussista */}
-                  <p className="text-xs font-medium mt-3 mb-1" style={{ color: 'var(--muted)' }}>Kuva suljetusta näytepussista (merkintä näkyvissä)</p>
+                  <p className="text-xs font-medium mt-3 mb-1" style={{ color: 'var(--muted)' }}>Kuva merkitystä näytepussista (merkintä näkyvissä)</p>
                   <label className="block cursor-pointer">
                     <div className="border-2 border-dashed rounded-xl py-3 text-center text-sm" style={{ borderColor: s.bagPhotoPreview ? 'var(--accent)' : 'var(--border)', color: s.bagPhotoPreview ? 'var(--accent)' : 'var(--muted)' }}>
                       {s.bagPhotoPreview ? '✓ Kuva pussista lisätty' : '🧪 Ota kuva pussista'}
