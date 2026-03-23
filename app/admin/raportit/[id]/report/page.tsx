@@ -71,11 +71,14 @@ export default function ReportPage() {
     setSendStatus('idle');
     try {
       const res = await fetch(`/api/surveys/${survey.id}/send-report`, { method: 'POST' });
+      const data = await res.json();
       if (res.ok) {
         setSendStatus('sent');
         setSurvey({ ...survey, report_sent_at: new Date().toISOString(), status: 'complete' });
       } else {
         setSendStatus('error');
+        console.error('Send error:', data.error);
+        alert(`Virhe: ${data.error}`);
       }
     } catch {
       setSendStatus('error');
