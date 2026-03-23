@@ -78,11 +78,7 @@ export default function AdminSurveyDetailPage() {
             {survey.city} · {new Date(survey.date).toLocaleDateString('fi-FI')}
           </p>
           {survey.kohde_tyyppi && (
-            <p className="text-xs text-gray-400 mt-0.5">
-              {survey.kohde_tyyppi}
-              {survey.katto ? ` · Katto: ${survey.katto}` : ''}
-              {survey.runko ? ` · Runko: ${survey.runko}` : ''}
-            </p>
+            <p className="text-xs text-gray-400 mt-0.5">{survey.kohde_tyyppi}</p>
           )}
         </div>
         <div className="flex flex-col items-end gap-2">
