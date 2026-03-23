@@ -124,9 +124,8 @@ export default function DemoSection() {
         )}
       </div>
 
-      {/* Navigation (only when started) */}
-      {started && (
-        <>
+      {/* Navigation — always rendered to reserve space, invisible until started */}
+      <div style={{ visibility: started ? 'visible' : 'hidden' }}>
           {/* Arrows + dots */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 16 }}>
             <button
@@ -183,8 +182,7 @@ export default function DemoSection() {
           <p style={{ color: '#6B7280', fontSize: 12, marginTop: 8, textAlign: 'center' }}>
             {isReport ? 'Valmis raportti tilaajalle' : slides[current].caption}
           </p>
-        </>
-      )}
+      </div>
     </div>
   );
 }
