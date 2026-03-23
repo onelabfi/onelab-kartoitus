@@ -11,7 +11,7 @@ const slides = [
 ];
 
 const FRAME_STYLE: React.CSSProperties = {
-  width: 360,
+  width: 330,
   height: 563,
   borderRadius: 22,
   overflow: 'hidden',
