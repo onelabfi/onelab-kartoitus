@@ -150,7 +150,8 @@ export default function PublicReportPage() {
       <div className="max-w-[750px] mx-auto px-4 sm:px-6 pt-8 pb-4 print:px-0 print:py-0 print:max-w-none">
         <div className="rounded-2xl shadow-xl overflow-hidden border border-gray-700 print:rounded-none print:shadow-none print:border-none">
           <ReportHeader
-            title="KARTOITUSRAPORTTI"
+            title="Asbestikartoitusraportti"
+            subtitle="Laboratorioanalyysillä varmennettu"
             dateStr={dateStr}
             logo={page1Logo}
             companyInfo={companyName !== 'Yritys' ? companyName : undefined}

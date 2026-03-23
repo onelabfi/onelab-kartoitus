@@ -257,7 +257,8 @@ export default function ReportPage() {
         <div className="rounded-2xl shadow-xl overflow-hidden border border-gray-700 print:rounded-none print:shadow-none print:border-none">
           {/* Dark header */}
           <ReportHeader
-            title="KARTOITUSRAPORTTI"
+            title="Asbestikartoitusraportti"
+            subtitle="Laboratorioanalyysillä varmennettu"
             dateStr={dateStr}
             logo={page1Logo}
             companyInfo={companyName !== 'Yritys' ? companyName : undefined}
