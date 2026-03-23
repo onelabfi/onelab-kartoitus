@@ -193,7 +193,7 @@ export default function ReportPage() {
   ) : companyName && companyName !== 'Yritys' ? (
     <p className="text-lg font-bold text-white mb-2">{companyName}</p>
   ) : (
-    <img src="/kartoittaja-logo.png" alt="Kartoittaja.com" style={{ height: 48, width: 'auto', maxWidth: 130, display: 'block', marginBottom: 8 }} />
+    <img src="/kartoittaja-gen.png" alt="Kartoittaja.com" style={{ height: 48, width: 'auto', maxWidth: 130, display: 'block', marginBottom: 8 }} />
   );
 
   // Onelab logo for page 2
