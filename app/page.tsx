@@ -39,7 +39,7 @@ export default function LandingPage() {
 
         <main>
           {/* HERO */}
-          <section aria-label="Esittely" style={{ maxWidth: 1100, margin: '0 auto', padding: '80px 1.5rem 40px', display: 'flex', alignItems: 'center', gap: 60, flexWrap: 'wrap' }}>
+          <section aria-label="Esittely" style={{ maxWidth: 1100, margin: '0 auto', padding: '80px 1.5rem 60px', display: 'flex', alignItems: 'center', gap: 60, flexWrap: 'wrap' }}>
             <div style={{ flex: '1 1 400px' }}>
               <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(37,99,235,0.15)', border: '1px solid rgba(37,99,235,0.3)', borderRadius: 999, padding: '6px 14px', marginBottom: 24 }}>
                 <span style={{ color: '#60A5FA', fontSize: 12, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>Analyysi: Onelab Oy</span>
@@ -60,13 +60,15 @@ export default function LandingPage() {
                 </a>
               </div>
             </div>
+
+            {/* Phone — hero image or demo slides */}
+            <div style={{ flex: '0 0 auto', display: 'flex', justifyContent: 'center' }}>
+              <DemoSection />
+            </div>
           </section>
 
-          {/* DEMO — phone mockup + slideshow */}
-          <DemoSection />
-
           {/* FEATURES */}
-          <section aria-label="Ominaisuudet" style={{ background: 'rgba(255,255,255,0.02)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', padding: '72px 1.5rem', marginTop: 60 }}>
+          <section aria-label="Ominaisuudet" style={{ background: 'rgba(255,255,255,0.02)', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)', padding: '72px 1.5rem' }}>
             <div style={{ maxWidth: 1100, margin: '0 auto' }}>
               <h2 style={{ fontSize: 'clamp(1.5rem,3vw,2.2rem)', fontWeight: 800, textAlign: 'center', marginBottom: 8 }}>Kaikki mitä tarvitset asbestikartoitukseen</h2>
               <p style={{ color: '#9CA3AF', textAlign: 'center', marginBottom: 48, fontSize: 15 }}>Suunniteltu kentällä työskenteleville kartoittajille</p>
