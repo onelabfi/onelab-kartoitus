@@ -7,6 +7,7 @@ import type { Survey } from '@/lib/supabase';
 
 export default function AdminReportsPage() {
   const [surveys, setSurveys] = useState<Survey[]>([]);
+  const [selected, setSelected] = useState<Survey | null>(null);
 
   useEffect(() => {
     supabase.from('surveys').select('*').order('created_at', { ascending: false }).then(({ data }) => {
@@ -33,7 +34,14 @@ export default function AdminReportsPage() {
           <tbody>
             {surveys.map(s => (
               <tr key={s.id} className="border-b hover:bg-gray-50">
-                <td className="px-5 py-3">{s.tilaaja_nimi || s.user_id.slice(0, 8) + '...'}</td>
+                <td className="px-5 py-3">
+                  <button
+                    onClick={() => setSelected(s)}
+                    className="text-left hover:text-blue-600 font-medium transition-colors"
+                  >
+                    {s.tilaaja_nimi || s.user_id.slice(0, 8) + '...'}
+                  </button>
+                </td>
                 <td className="px-5 py-3">
                   <Link href={`/admin/raportit/${s.id}`} className="text-blue-600 hover:underline font-medium">{s.name}</Link>
                   <p className="text-xs text-gray-400">{s.city}</p>
@@ -49,6 +57,65 @@ export default function AdminReportsPage() {
           </tbody>
         </table>
       </div>
+
+      {/* Client details modal */}
+      {selected && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          style={{ background: 'rgba(0,0,0,0.45)' }}
+          onClick={() => setSelected(null)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-sm mx-4"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-5">
+              <h2 className="font-bold text-lg text-gray-900">Asiakkaan tiedot</h2>
+              <button onClick={() => setSelected(null)} className="text-gray-400 hover:text-gray-600 text-xl leading-none">×</button>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <span className="text-lg">👤</span>
+                <div>
+                  <p className="text-xs text-gray-400 font-medium">Nimi</p>
+                  <p className="text-sm font-semibold text-gray-900">{selected.tilaaja_nimi || '—'}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-lg">✉️</span>
+                <div>
+                  <p className="text-xs text-gray-400 font-medium">Sähköposti</p>
+                  {selected.tilaaja_email
+                    ? <a href={`mailto:${selected.tilaaja_email}`} className="text-sm font-semibold text-blue-600 hover:underline">{selected.tilaaja_email}</a>
+                    : <p className="text-sm text-gray-400">—</p>
+                  }
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="text-lg">📞</span>
+                <div>
+                  <p className="text-xs text-gray-400 font-medium">Puhelin</p>
+                  {selected.tilaaja_puhelin
+                    ? <a href={`tel:${selected.tilaaja_puhelin}`} className="text-sm font-semibold text-blue-600 hover:underline">{selected.tilaaja_puhelin}</a>
+                    : <p className="text-sm text-gray-400">—</p>
+                  }
+                </div>
+              </div>
+            </div>
+            <div className="mt-5 pt-4 border-t border-gray-100">
+              <p className="text-xs text-gray-400 mb-1">Kohde</p>
+              <p className="text-sm font-medium text-gray-700">{selected.name}</p>
+              <p className="text-xs text-gray-400">{selected.city} · {new Date(selected.date).toLocaleDateString('fi-FI')}</p>
+            </div>
+            <button
+              onClick={() => setSelected(null)}
+              className="mt-5 w-full py-2.5 rounded-xl text-sm font-semibold bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+            >
+              Sulje
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

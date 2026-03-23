@@ -15,6 +15,7 @@ export type Survey = {
   report_sent_at: string | null;
   tilaaja_nimi: string | null;
   tilaaja_email: string | null;
+  tilaaja_puhelin: string | null;
 };
 
 export type AppSettings = {

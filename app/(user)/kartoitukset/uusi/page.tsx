@@ -83,6 +83,7 @@ export default function UusiKartoitusPage() {
   const [nimiError, setNimiError] = useState('');
   const [tilaajaSahkoposti, setTilaajaSahkoposti] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [tilaajaPuhelin, setTilaajaPuhelin] = useState('');
   const [kohde_tyyppi, setKohdeTyyppi] = useState('');
   const [kohde_muu, setKohdeMuu] = useState('');
   const [katto, setKatto] = useState('');
@@ -134,7 +135,8 @@ export default function UusiKartoitusPage() {
         date,
         status: 'submitted',
         tilaaja_nimi: tilaajaNimi,
-      tilaaja_email: tilaajaSahkoposti,
+        tilaaja_email: tilaajaSahkoposti,
+        tilaaja_puhelin: tilaajaPuhelin || null,
         kohde_tyyppi: kohde_tyyppi === 'Muu' ? kohde_muu : kohde_tyyppi,
         kohde_muu,
         katto,
@@ -240,6 +242,17 @@ export default function UusiKartoitusPage() {
                 style={{ borderColor: emailError ? '#EF4444' : 'var(--border)' }}
               />
               {emailError && <p className="text-xs text-red-500 mt-1">{emailError}</p>}
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Tilaajan puhelinnumero</label>
+              <input
+                type="tel"
+                value={tilaajaPuhelin}
+                onChange={e => setTilaajaPuhelin(e.target.value)}
+                placeholder="esim. 040 123 4567"
+                className="w-full border rounded-xl px-4 py-3 text-sm outline-none focus:border-blue-500 bg-white"
+                style={{ borderColor: 'var(--border)' }}
+              />
             </div>
             <div>
               <label className="block text-sm font-medium mb-1">Päivämäärä</label>
