@@ -74,10 +74,13 @@ export function generateYleista(
   const hasAsbestos = asbestosSamples.length > 0;
   const hasClean = cleanSamples.length > 0;
   const isPinta = kohde_tyyppi?.toLowerCase().includes('pinta');
+  const isYksittaiset = kohde_tyyppi?.toLowerCase().includes('yksitt');
 
   let base: string;
   if (isPinta) {
     base = `Kohteessa ${surveyName} ollaan tekemässä pintaremonttia. `;
+  } else if (isYksittaiset) {
+    base = `Kohteesta ${surveyName} otettiin yksittäisiä näytteitä asbestipitoisuuden selvittämiseksi. `;
   } else {
     base = `Kohde ${surveyName} kartoitettiin asbestin varalta. `;
   }
