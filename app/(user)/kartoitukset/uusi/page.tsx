@@ -18,6 +18,8 @@ type SampleDraft = {
   notes: string;
   photo: File | null;
   photoPreview: string | null;
+  bagPhoto: File | null;
+  bagPhotoPreview: string | null;
 };
 
 const LOCATIONS = ['Keittiö', 'KPH', 'WC', 'MH', 'OH', 'Eteinen', 'Kellari', 'Ullakko', 'Katto', 'Sauna', 'Julkisivu', 'Muu'];
@@ -101,6 +103,7 @@ export default function UusiKartoitusPage() {
     materials: [], material_muu: '',
     area_m2: '', notes: '',
     photo: null, photoPreview: null,
+    bagPhoto: null, bagPhotoPreview: null,
   }]);
 
   const updateSample = (id: string, updates: Partial<SampleDraft>) =>
@@ -120,6 +123,11 @@ export default function UusiKartoitusPage() {
   const handlePhoto = (id: string, file: File) => {
     const url = URL.createObjectURL(file);
     updateSample(id, { photo: file, photoPreview: url });
+  };
+
+  const handleBagPhoto = (id: string, file: File) => {
+    const url = URL.createObjectURL(file);
+    updateSample(id, { bagPhoto: file, bagPhotoPreview: url });
   };
 
   const handleSubmit = async () => {
@@ -152,6 +160,7 @@ export default function UusiKartoitusPage() {
 
       for (const s of samples) {
         let photo_url = null;
+        let bag_photo_url = null;
         if (s.photo) {
           try {
             const path = `${survey.id}/${s.id}`;
@@ -162,6 +171,18 @@ export default function UusiKartoitusPage() {
             }
           } catch {
             // photo upload failed — continue without photo
+          }
+        }
+        if (s.bagPhoto) {
+          try {
+            const path = `${survey.id}/${s.id}-bag`;
+            const { error: upErr } = await supabase.storage.from('sample-photos').upload(path, s.bagPhoto);
+            if (!upErr) {
+              const { data: u } = supabase.storage.from('sample-photos').getPublicUrl(path);
+              bag_photo_url = u.publicUrl;
+            }
+          } catch {
+            // bag photo upload failed — continue without
           }
         }
         const materialStr = s.materials.filter(m => m !== 'Muu').join(', ') + (s.material_muu ? `, ${s.material_muu}` : '');
@@ -178,6 +199,7 @@ export default function UusiKartoitusPage() {
           area_m2: s.area_m2 ? parseFloat(s.area_m2) : null,
           description: s.notes || null,
           photo_url,
+          bag_photo_url,
         });
       }
       router.push(`/kartoitukset/${survey.id}?sent=1`);
@@ -360,14 +382,25 @@ export default function UusiKartoitusPage() {
                   {/* Muistiinpanot */}
                   <textarea value={s.notes} onChange={e => updateSample(s.id, { notes: e.target.value })} rows={2} placeholder="Vapaaehtoinen kuvaus..." className="w-full border rounded-xl px-3 py-2 text-sm outline-none focus:border-blue-500 resize-none mb-3" style={{ borderColor: 'var(--border)' }} />
 
-                  {/* Kuva */}
+                  {/* Kuva kohteesta */}
+                  <p className="text-xs font-medium mb-1" style={{ color: 'var(--muted)' }}>Kuva kohteesta</p>
                   <label className="block cursor-pointer">
                     <div className="border-2 border-dashed rounded-xl py-3 text-center text-sm" style={{ borderColor: s.photoPreview ? 'var(--accent)' : 'var(--border)', color: s.photoPreview ? 'var(--accent)' : 'var(--muted)' }}>
-                      {s.photoPreview ? '✓ Kuva lisätty' : '📷 Ota kuva'}
+                      {s.photoPreview ? '✓ Kuva lisätty' : '📷 Ota kuva kohteesta'}
                     </div>
                     <input type="file" accept="image/*" capture="environment" className="hidden" onChange={e => { if (e.target.files?.[0]) handlePhoto(s.id, e.target.files[0]); }} />
                   </label>
                   {s.photoPreview && <img src={s.photoPreview} className="mt-2 w-full h-32 object-cover rounded-xl" alt="Näytteen kuva" />}
+
+                  {/* Kuva näytepussista */}
+                  <p className="text-xs font-medium mt-3 mb-1" style={{ color: 'var(--muted)' }}>Kuva näytepussista</p>
+                  <label className="block cursor-pointer">
+                    <div className="border-2 border-dashed rounded-xl py-3 text-center text-sm" style={{ borderColor: s.bagPhotoPreview ? 'var(--accent)' : 'var(--border)', color: s.bagPhotoPreview ? 'var(--accent)' : 'var(--muted)' }}>
+                      {s.bagPhotoPreview ? '✓ Kuva pussista lisätty' : '🧪 Ota kuva pussista'}
+                    </div>
+                    <input type="file" accept="image/*" capture="environment" className="hidden" onChange={e => { if (e.target.files?.[0]) handleBagPhoto(s.id, e.target.files[0]); }} />
+                  </label>
+                  {s.bagPhotoPreview && <img src={s.bagPhotoPreview} className="mt-2 w-full h-32 object-cover rounded-xl" alt="Näytepussin kuva" />}
                 </div>
               ))}
             </div>

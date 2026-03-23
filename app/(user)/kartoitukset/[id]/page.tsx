@@ -67,7 +67,12 @@ export default function SurveyDetailPage() {
             <p className="text-sm font-medium">{s.location} · {s.material}</p>
             {s.description && <p className="text-xs mt-1" style={{ color: 'var(--muted)' }}>{s.description}</p>}
             {s.asbestos_type && <p className="text-xs mt-1 font-medium text-red-600">{s.asbestos_type}</p>}
-            {s.photo_url && <img src={s.photo_url} alt="" className="mt-2 w-full h-28 object-cover rounded-xl" />}
+            {(s.photo_url || s.bag_photo_url) && (
+              <div className={`mt-2 grid gap-2 ${s.photo_url && s.bag_photo_url ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                {s.photo_url && <div><p className="text-[10px] mb-0.5" style={{ color: 'var(--muted)' }}>Kohde</p><img src={s.photo_url} alt="" className="w-full h-28 object-cover rounded-xl" /></div>}
+                {s.bag_photo_url && <div><p className="text-[10px] mb-0.5" style={{ color: 'var(--muted)' }}>Pussi</p><img src={s.bag_photo_url} alt="" className="w-full h-28 object-cover rounded-xl" /></div>}
+              </div>
+            )}
           </div>
         ))}
       </div>

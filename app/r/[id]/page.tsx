@@ -367,25 +367,33 @@ export default function PublicReportPage() {
               </div>
             </div>
 
-            {samples.some(s => s.photo_url) && (
+            {samples.some(s => s.photo_url || s.bag_photo_url) && (
               <div className="mt-8">
                 <h3 className="text-sm font-semibold mb-4">Näytekuvat</h3>
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {samples.map((s, i) => {
-                    if (!s.photo_url) return null;
+                    if (!s.photo_url && !s.bag_photo_url) return null;
                     const materialStr = s.materials?.length ? s.materials.join(', ') : s.material;
                     const locationStr = [s.location, s.sub_location].filter(Boolean).join(' · ');
                     return (
                       <div key={s.id} className="mb-4 break-inside-avoid">
-                        <img
-                          src={s.photo_url}
-                          alt={`Näyte ${i + 1}`}
-                          className="max-w-full max-h-[400px] object-contain rounded border border-gray-200"
-                        />
-                        <p className="text-[12px] text-gray-600 mt-1">
-                          {s.sample_code || `N-${String(i + 1).padStart(3, '0')}`}: {locationStr}
-                          {materialStr ? `, ${materialStr}` : ''}
+                        <p className="text-[12px] font-semibold text-gray-700 mb-2">
+                          {s.sample_code || `N-${String(i + 1).padStart(3, '0')}`}: {locationStr}{materialStr ? `, ${materialStr}` : ''}
                         </p>
+                        <div className={`grid gap-3 ${s.photo_url && s.bag_photo_url ? 'grid-cols-2' : 'grid-cols-1'}`}>
+                          {s.photo_url && (
+                            <div>
+                              <p className="text-[10px] text-gray-400 mb-1">Kohde</p>
+                              <img src={s.photo_url} alt={`Näyte ${i + 1} kohde`} className="w-full max-h-[280px] object-cover rounded border border-gray-200" />
+                            </div>
+                          )}
+                          {s.bag_photo_url && (
+                            <div>
+                              <p className="text-[10px] text-gray-400 mb-1">Näytepussi</p>
+                              <img src={s.bag_photo_url} alt={`Näyte ${i + 1} pussi`} className="w-full max-h-[280px] object-cover rounded border border-gray-200" />
+                            </div>
+                          )}
+                        </div>
                       </div>
                     );
                   })}

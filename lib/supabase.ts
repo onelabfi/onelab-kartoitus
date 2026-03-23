@@ -35,6 +35,7 @@ export type Sample = {
   material: string;
   description: string | null;
   photo_url: string | null;
+  bag_photo_url: string | null;
   asbestos_detected: boolean | null;
   asbestos_type: string | null;
   lab_notes: string | null;
