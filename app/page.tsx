@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import AuthRedirect from './AuthRedirect';
 import DemoSection from './DemoSection';
 
 const features = [
@@ -21,8 +20,7 @@ const steps = [
 export default function LandingPage() {
   return (
     <>
-      <AuthRedirect />
-      <div style={{ background: '#0A0F1A', color: '#fff', fontFamily: 'system-ui, sans-serif' }}>
+<div style={{ background: '#0A0F1A', color: '#fff', fontFamily: 'system-ui, sans-serif' }}>
 
         {/* NAV */}
         <nav style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '0 1.5rem', marginTop: 16 }}>
