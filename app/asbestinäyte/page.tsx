@@ -64,6 +64,8 @@ export default function AsbestinäytePage() {
               { icon: '🚿', title: 'Kylpyhuoneremontti', desc: 'Vanhoissa laatatuissa tiloissa liimat, tasoitteet ja eristeet voivat sisältää asbestia.' },
               { icon: '🏠', title: 'Lattiaremontti', desc: 'Vinyylimatot, linoleum ja niiden alusliimat ovat tyypillisiä asbestipitoisuuden lähteitä.' },
               { icon: '🔧', title: 'Putkistoremontti', desc: 'Putkien eristyksissä ja liitosmateriaaleissa saattaa esiintyä asbestia.' },
+              { icon: '🍳', title: 'Keittiöremontti', desc: 'Vanhat keittiön tasoitteet, liimat ja lattiamateriaalit voivat sisältää asbestia erityisesti ennen 1990 rakennetuissa kodeissa.' },
+              { icon: '🏚️', title: 'Katto- ja julkisivuremontti', desc: 'Eterniittilevyt katoissa ja julkisivuissa sekä vanhat katemateriaalit sisältävät usein asbestia.' },
             ].map(({ icon, title, desc }) => (
               <div key={title} style={card}>
                 <div style={{ fontSize: 28, marginBottom: 12 }} aria-hidden="true">{icon}</div>
