@@ -115,7 +115,7 @@ export default function HomePage() {
       </div>
 
       {/* Photo panels at bottom */}
-      <div className="px-4 mt-6 mb-24 grid grid-cols-2 gap-3">
+      <div className="px-4 mt-6 mb-24 grid grid-cols-2 gap-3 relative">
         <button
           onClick={() => router.push('/onboarding')}
           className="relative h-36 rounded-2xl overflow-hidden w-full text-left active:scale-95 transition-all"
@@ -133,28 +133,13 @@ export default function HomePage() {
             </p>
           </div>
         </button>
-        <button
-          onClick={() => setOnelabExpanded(v => !v)}
-          className="w-full text-left rounded-2xl overflow-hidden"
-          style={{ background: '#2C2C2E' }}
-        >
-          {/* Collapsed: original look */}
-          <div className="relative h-36">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center">
-                <div className="text-3xl mb-1">🔬</div>
-                <p className="text-blue-400 text-xs font-bold">ANALYYSI: ONELAB</p>
-                <p className="text-[10px] mt-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
-                  {onelabExpanded ? 'Sulje ↑' : 'Lue lisää ↓'}
-                </p>
-              </div>
-            </div>
-            <div className="absolute inset-0 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(37,99,235,0.15), rgba(0,0,0,0.4))' }} />
-          </div>
-
-          {/* Expanded content */}
+        <div className="relative">
+          {/* Expanded panel — floats upward above the card */}
           {onelabExpanded && (
-            <div className="px-4 pb-4">
+            <div
+              className="absolute left-0 right-0 z-20 rounded-2xl p-4 shadow-2xl"
+              style={{ bottom: 'calc(100% + 8px)', background: '#1C1C1E', border: '1px solid rgba(37,99,235,0.4)' }}
+            >
               <div className="mb-4">
                 <p className="text-white text-xs font-semibold mb-2">Miten analyysi toimii</p>
                 <ul className="space-y-1">
@@ -188,7 +173,27 @@ export default function HomePage() {
               </div>
             </div>
           )}
-        </button>
+
+          {/* Card — always visible */}
+          <button
+            onClick={() => setOnelabExpanded(v => !v)}
+            className="w-full text-left rounded-2xl overflow-hidden"
+            style={{ background: '#2C2C2E' }}
+          >
+            <div className="relative h-36">
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center">
+                  <div className="text-3xl mb-1">🔬</div>
+                  <p className="text-blue-400 text-xs font-bold">ANALYYSI: ONELAB</p>
+                  <p className="text-[10px] mt-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                    {onelabExpanded ? 'Sulje ↑' : 'Lue lisää ↑'}
+                  </p>
+                </div>
+              </div>
+              <div className="absolute inset-0 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(37,99,235,0.15), rgba(0,0,0,0.4))' }} />
+            </div>
+          </button>
+        </div>
       </div>
     </div>
   );
