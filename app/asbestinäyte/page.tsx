@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 
 const nav = { background: '#0A0F1A', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '0 1.5rem' } as const;
 const navInner = { maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 } as const;
-const page = { background: '#0A0F1A', color: '#fff', fontFamily: 'system-ui, sans-serif', minHeight: '100vh' } as const;
+const page = { background: '#0A0F1A', color: '#fff', fontFamily: 'system-ui, sans-serif', minHeight: '100vh', paddingTop: 16 } as const;
 const wrap = { maxWidth: 820, margin: '0 auto', padding: '64px 1.5rem 80px' } as const;
 const badge = { display: 'inline-flex', alignItems: 'center', background: 'rgba(37,99,235,0.15)', border: '1px solid rgba(37,99,235,0.3)', borderRadius: 999, padding: '6px 14px', marginBottom: 24 } as const;
 const cardGrid = { display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(220px,1fr))', gap: 16, margin: '32px 0' } as const;

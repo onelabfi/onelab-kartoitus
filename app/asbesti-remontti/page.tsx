@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   },
 };
 
-const page = { background: '#0A0F1A', color: '#fff', fontFamily: 'system-ui, sans-serif', minHeight: '100vh' } as const;
+const page = { background: '#0A0F1A', color: '#fff', fontFamily: 'system-ui, sans-serif', minHeight: '100vh', paddingTop: 16 } as const;
 const nav = { background: '#0A0F1A', borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '0 1.5rem' } as const;
 const navInner = { maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 } as const;
 const wrap = { maxWidth: 820, margin: '0 auto', padding: '64px 1.5rem 80px' } as const;
