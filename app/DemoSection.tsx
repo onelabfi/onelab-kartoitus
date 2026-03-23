@@ -10,7 +10,7 @@ const slides = [
   { src: '/slide5.png', caption: 'Yhteenveto — näytteet ja kuvat' },
 ];
 
-const FRAME_W = 310;
+const FRAME_W = 316;
 // same aspect ratio as a phone screen
 const FRAME_STYLE: React.CSSProperties = {
   width: FRAME_W,
@@ -85,10 +85,19 @@ export default function DemoSection() {
             padding: 28,
             textAlign: 'center',
           }}>
-            <div style={{ fontSize: 52 }}>📄</div>
-            <p style={{ fontWeight: 800, fontSize: 17, lineHeight: 1.4, color: '#fff' }}>
-              Tämän raportin<br />asiakas saa
-            </p>
+            <div style={{ fontSize: 48 }}>📄</div>
+            <div style={{ textAlign: 'center' }}>
+              <p style={{ fontWeight: 700, fontSize: 14, color: '#fff', marginBottom: 6 }}>
+                Saat selkeän vastauksen:
+              </p>
+              <p style={{ color: '#9CA3AF', fontSize: 13, lineHeight: 1.8, marginBottom: 4 }}>
+                – Sisältääkö asbestia<br />
+                – Miten purkaa turvallisesti
+              </p>
+              <p style={{ color: '#60A5FA', fontSize: 13, fontWeight: 600, marginTop: 8 }}>
+                Ilman kartoittajaa —<br />vain näytteen hinta
+              </p>
+            </div>
             <a
               href="/report.pdf"
               target="_blank"
