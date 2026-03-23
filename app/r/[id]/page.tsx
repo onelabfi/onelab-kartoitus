@@ -117,7 +117,9 @@ export default function PublicReportPage() {
     <img src={logoUrl} alt={companyName} className="h-12 mb-2 print:h-10 object-contain" />
   ) : companyName && companyName !== 'Yritys' ? (
     <p className="text-lg font-bold text-white mb-2">{companyName}</p>
-  ) : null;
+  ) : (
+    <img src="/kartoittaja.png" alt="Kartoittaja.com" className="h-12 mb-2 print:h-10 object-contain" />
+  );
 
   const page2Logo = (
     <img
