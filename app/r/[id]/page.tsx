@@ -146,7 +146,7 @@ export default function PublicReportPage() {
       <div className="max-w-[750px] mx-auto px-4 sm:px-6 pt-8 pb-4 print:px-0 print:py-0 print:max-w-none">
         <div className="rounded-2xl shadow-xl overflow-hidden border border-gray-700 print:rounded-none print:shadow-none print:border-none">
           <ReportHeader
-            title="ASBESTIKARTOITUSRAPORTTI"
+            title="KARTOITUSRAPORTTI"
             dateStr={dateStr}
             logo={page1Logo}
             companyInfo={companyName !== 'Yritys' ? companyName : undefined}
@@ -156,7 +156,7 @@ export default function PublicReportPage() {
             <table className="w-full mb-6">
               <tbody className="text-[13px]">
                 <tr>
-                  <td className="py-1 pr-8 text-gray-500 w-40">Kartoittaja</td>
+                  <td className="py-1 pr-8 text-gray-500 w-40">Näytteenottaja</td>
                   <td className="py-1 font-medium">{survey.tilaaja_nimi || kartoittajaName}</td>
                 </tr>
                 <tr>
@@ -254,7 +254,7 @@ export default function PublicReportPage() {
                 />
               )}
               <p className="font-medium">
-                Kartoittaja, {survey.tilaaja_nimi || kartoittajaName}
+                Näytteenottaja, {survey.tilaaja_nimi || kartoittajaName}
               </p>
               {kartoittajaCredentials && (
                 <p className="text-[11px] text-gray-500">{kartoittajaCredentials}</p>

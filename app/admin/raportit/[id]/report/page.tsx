@@ -253,7 +253,7 @@ export default function ReportPage() {
         <div className="rounded-2xl shadow-xl overflow-hidden border border-gray-700 print:rounded-none print:shadow-none print:border-none">
           {/* Dark header */}
           <ReportHeader
-            title="ASBESTIKARTOITUSRAPORTTI"
+            title="KARTOITUSRAPORTTI"
             dateStr={dateStr}
             logo={page1Logo}
             companyInfo={companyName !== 'Yritys' ? companyName : undefined}
@@ -265,13 +265,13 @@ export default function ReportPage() {
             <table className="w-full mb-6">
               <tbody className="text-[13px]">
                 <tr>
-                  <td className="py-1 pr-8 text-gray-500 w-40">Kartoittaja</td>
+                  <td className="py-1 pr-8 text-gray-500 w-40">Näytteenottaja</td>
                   <td className="py-1 font-medium">
                     <input
                       type="text"
                       value={editTilaaja}
                       onChange={e => setEditTilaaja(e.target.value)}
-                      placeholder="Kartoittajan nimi..."
+                      placeholder="Näytteenottajan nimi..."
                       className="w-full bg-transparent border-0 border-b border-transparent hover:border-gray-300 focus:border-blue-500 focus:outline-none px-0 py-0 font-medium print:border-none"
                     />
                   </td>
@@ -418,7 +418,7 @@ export default function ReportPage() {
                 />
               )}
               <p className="font-medium">
-                Kartoittaja, {editTilaaja || kartoittajaName}
+                Näytteenottaja, {editTilaaja || kartoittajaName}
               </p>
               {kartoittajaCredentials && (
                 <p className="text-[11px] text-gray-500">{kartoittajaCredentials}</p>
