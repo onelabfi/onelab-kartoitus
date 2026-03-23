@@ -355,6 +355,18 @@ export default function PublicReportPage() {
               </table>
             </div>
 
+            {/* Pölyävyys legend */}
+            <div className="mt-6 p-4 rounded-lg" style={{ background: '#F9FAFB', border: '1px solid #E5E7EB' }}>
+              <p className="text-[12px] font-semibold text-gray-700 mb-2">Pölyävyys — arvio 1–5</p>
+              <div className="grid grid-cols-1 gap-0.5 text-[11px] text-gray-600">
+                <span><b>1</b> – Ehjä, ei pölyä</span>
+                <span><b>2</b> – Lievä pölyävyys</span>
+                <span><b>3</b> – Pölyää käsiteltäessä</span>
+                <span><b>4</b> – Pölyää helposti</span>
+                <span><b>5</b> – Erittäin pölyävä / mureneva</span>
+              </div>
+            </div>
+
             {samples.some(s => s.photo_url) && (
               <div className="mt-8">
                 <h3 className="text-sm font-semibold mb-4">Näytekuvat</h3>
