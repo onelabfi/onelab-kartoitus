@@ -5,10 +5,10 @@ const SETTINGS_ID = '00000000-0000-0000-0000-000000000001';
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const admin = createServerSupabase();
-  const { id } = params;
+  const { id } = await params;
 
   const [{ data: survey }, { data: samples }, { data: appSettings }] = await Promise.all([
     admin.from('surveys').select('*').eq('id', id).single(),
