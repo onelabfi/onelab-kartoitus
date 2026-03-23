@@ -106,7 +106,7 @@ export default function ReportPage() {
       setEditTilaaja(survey.tilaaja_nimi || '');
       setEditKohde(`${survey.name}${survey.city ? ', ' + survey.city : ''}`);
       setEditYleista(
-        generateYleista(survey.name, survey.city, survey.kohde_tyyppi, samples, survey.katto, survey.runko)
+        generateYleista(survey.name, survey.city, survey.kohde_tyyppi, samples)
       );
       const polyMap: Record<string, number> = {};
       samples.forEach(s => {

@@ -68,27 +68,15 @@ export function generateYleista(
     materials: string[] | null;
     material_muu?: string | null;
   }>,
-  katto?: string | null,
-  runko?: string | null,
 ): string {
   const asbestosSamples = samples.filter(s => s.asbestos_detected === true);
   const cleanSamples = samples.filter(s => s.asbestos_detected === false);
   const hasAsbestos = asbestosSamples.length > 0;
   const hasClean = cleanSamples.length > 0;
-  const isPurku = kohde_tyyppi?.toLowerCase().includes('puret') || kohde_tyyppi?.toLowerCase().includes('purettava');
   const isPinta = kohde_tyyppi?.toLowerCase().includes('pinta');
 
-  // Opening sentence: "Kohteessa X ollaan tekemässä pintaremonttia/purkutyötä."
   let base: string;
-  if (isPurku) {
-    if (katto && runko) {
-      const kattoAdj = katto.toLowerCase() + 'kattoinen';
-      const runkoNoun = runko.toLowerCase() + 'rakennus';
-      base = `Kohteessa ${surveyName} on tarkoitus purkaa ${kattoAdj} ${runkoNoun}. `;
-    } else {
-      base = `Kohteessa ${surveyName} ollaan tekemässä purkutyötä. `;
-    }
-  } else if (isPinta) {
+  if (isPinta) {
     base = `Kohteessa ${surveyName} ollaan tekemässä pintaremonttia. `;
   } else {
     base = `Kohde ${surveyName} kartoitettiin asbestin varalta. `;

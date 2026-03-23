@@ -10,8 +10,6 @@ export type Survey = {
   created_at: string;
   kohde_tyyppi: string | null;
   kohde_muu: string | null;
-  katto: string | null;
-  runko: string | null;
   report_sent_at: string | null;
   tilaaja_nimi: string | null;
   tilaaja_email: string | null;
