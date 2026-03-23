@@ -141,7 +141,7 @@ export default function UusiKartoitusPage() {
         name: address,
         city: city || address,
         date,
-        status: 'submitted',
+        status: 'pending_payment',
         tilaaja_nimi: tilaajaNimi,
         tilaaja_email: tilaajaSahkoposti,
         tilaaja_puhelin: tilaajaPuhelin || null,
@@ -202,7 +202,23 @@ export default function UusiKartoitusPage() {
           bag_photo_url,
         });
       }
-      router.push(`/kartoitukset/${survey.id}?sent=1`);
+      // Redirect to Stripe checkout
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          surveyId: survey.id,
+          sampleCount: samples.length,
+          surveyAddress: address,
+        }),
+      });
+      const { url, error: checkoutError } = await res.json();
+      if (checkoutError || !url) {
+        alert('Maksun aloitus epäonnistui. Yritä uudelleen.');
+        setSaving(false);
+        return;
+      }
+      window.location.href = url;
     } catch (e) {
       console.error('handleSubmit error:', e);
       alert('Odottamaton virhe. Yritä uudelleen.');
@@ -434,7 +450,7 @@ export default function UusiKartoitusPage() {
               ))}
             </div>
             <button onClick={handleSubmit} disabled={saving} className="w-full py-4 rounded-2xl text-white font-semibold disabled:opacity-50" style={{ background: '#10B981' }}>
-              {saving ? '...' : 'Lähetä kartoitus ✓'}
+              {saving ? 'Valmistellaan maksua...' : `Maksa ja lähetä — ${samples.length} × 39,90€ + ALV`}
             </button>
           </div>
         )}
