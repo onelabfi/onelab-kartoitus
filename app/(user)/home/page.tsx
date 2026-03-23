@@ -10,6 +10,7 @@ import { useOnboarding } from '@/lib/useOnboarding';
 
 export default function HomePage() {
   const [surveys, setSurveys] = useState<Survey[]>([]);
+  const [onelabExpanded, setOnelabExpanded] = useState(false);
   const router = useRouter();
   const { completed } = useOnboarding();
 
@@ -132,43 +133,62 @@ export default function HomePage() {
             </p>
           </div>
         </button>
-        <div className="rounded-2xl p-4" style={{ background: '#2C2C2E' }}>
-          <div className="flex items-center gap-2 mb-4">
-            <span className="text-2xl">🔬</span>
-            <p className="text-blue-400 text-xs font-bold tracking-wide">ANALYYSI: ONELAB</p>
+        <button
+          onClick={() => setOnelabExpanded(v => !v)}
+          className="w-full text-left rounded-2xl overflow-hidden"
+          style={{ background: '#2C2C2E' }}
+        >
+          {/* Collapsed: original look */}
+          <div className="relative h-36">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="text-center">
+                <div className="text-3xl mb-1">🔬</div>
+                <p className="text-blue-400 text-xs font-bold">ANALYYSI: ONELAB</p>
+                <p className="text-[10px] mt-1" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  {onelabExpanded ? 'Sulje ↑' : 'Lue lisää ↓'}
+                </p>
+              </div>
+            </div>
+            <div className="absolute inset-0 rounded-2xl" style={{ background: 'linear-gradient(135deg, rgba(37,99,235,0.15), rgba(0,0,0,0.4))' }} />
           </div>
-          <div className="mb-4">
-            <p className="text-white text-xs font-semibold mb-2">Miten analyysi toimii</p>
-            <ul className="space-y-1">
-              {[
-                'Ota ja dokumentoi näytteet sovelluksen ohjeistuksella',
-                'Lähetä kartoitus sovelluksessa',
-                'Näytteet analysoidaan laboratoriossa',
-                'Saat varmennetun raportin',
-              ].map((item, i) => (
-                <li key={i} className="flex items-start gap-2 text-[11px]" style={{ color: 'rgba(255,255,255,0.7)' }}>
-                  <span className="text-blue-400 mt-0.5">•</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <p className="text-white text-xs font-semibold mb-2">Miksi voit luottaa tuloksiin</p>
-            <ul className="space-y-1">
-              {[
-                'Analyysi tehdään laboratoriossa käyttäen elektronimikroskopiaa ja materiaalikohtaista analytiikkaa',
-                'Analyysimenetelmät vastaavat tulevia vaatimuksia',
-                'Raportti täyttää asbestilainsäädännön vaatimukset',
-              ].map((item, i) => (
-                <li key={i} className="flex items-start gap-2 text-[11px]" style={{ color: 'rgba(255,255,255,0.7)' }}>
-                  <span className="text-blue-400 mt-0.5">•</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
+
+          {/* Expanded content */}
+          {onelabExpanded && (
+            <div className="px-4 pb-4">
+              <div className="mb-4">
+                <p className="text-white text-xs font-semibold mb-2">Miten analyysi toimii</p>
+                <ul className="space-y-1">
+                  {[
+                    'Ota ja dokumentoi näytteet sovelluksen ohjeistuksella',
+                    'Lähetä kartoitus sovelluksessa',
+                    'Näytteet analysoidaan laboratoriossa',
+                    'Saat varmennetun raportin',
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-[11px]" style={{ color: 'rgba(255,255,255,0.7)' }}>
+                      <span className="text-blue-400 mt-0.5">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p className="text-white text-xs font-semibold mb-2">Miksi voit luottaa tuloksiin</p>
+                <ul className="space-y-1">
+                  {[
+                    'Analyysi tehdään laboratoriossa käyttäen elektronimikroskopiaa ja materiaalikohtaista analytiikkaa',
+                    'Analyysimenetelmät vastaavat tulevia vaatimuksia',
+                    'Raportti täyttää asbestilainsäädännön vaatimukset',
+                  ].map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 text-[11px]" style={{ color: 'rgba(255,255,255,0.7)' }}>
+                      <span className="text-blue-400 mt-0.5">•</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+        </button>
       </div>
     </div>
   );
