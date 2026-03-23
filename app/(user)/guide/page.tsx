@@ -10,38 +10,44 @@ const steps = [
     icon: '🧪',
     title: 'Ota näyte',
     content: [
-      'Valitse epäilyttävä materiaali',
-      'Ota pieni pala varovasti',
+      'Valitse epäilyttävä materiaali (esim. laatta, liima, tasoite)',
+      'Ota pieni pala varovasti (noin 2–5 cm)',
       'Vältä pölyn muodostumista',
-      'Käytä tarvittaessa suojaimia (hengityssuojain, hanskat)',
+      'Käytä tarvittaessa suojavarusteita (esim. hengityssuojain, hanskat)',
+      'Sulje näyte tiiviiseen näytepussiin',
     ],
   },
   {
     icon: '📝',
     title: 'Täytä tiedot',
     content: [
-      'Kirjaa sijainti (esim. kylpyhuone)',
-      'Kuvaile materiaali ja kohta',
-      'Lisää rakennusvuosi jos tiedossa',
-      'Lisää kuva näytteestä',
+      'Täytä Kartoittajan pyytämät tiedot',
+      'Kohteen tiedot (osoite tai kuvaus)',
+      'Näytteen sijainti (esim. kylpyhuoneen lattia)',
+      'Valokuva näytekohdasta',
+      'Varmista, että tiedot vastaavat otettua näytettä',
     ],
   },
   {
     icon: '📦',
     title: 'Toimita lab',
     content: [
-      'Toimita näyte laboratorioon',
-      'Postitse tai paikan päälle',
-      'Merkitse näyte selkeästi',
+      'Ota näyte ja sulje se tiiviisti näytepussiin',
+      'Ota valokuva näytekohdasta (mistä näyte otettiin)',
+      'Ota valokuva suljetusta näytepussista niin, että merkintä näkyy selkeästi',
+      'Toimita tai postita näyte laboratorioon',
+      'Onelab, Ukkohauentie 11–13 A, 02170 Espoo',
+      'Seuraa analyysin etenemistä sovelluksessa',
     ],
   },
   {
     icon: '📊',
     title: 'Tulokset',
     content: [
-      'Saat analyysituloksen',
-      'Tieto sisältääkö asbestia',
-      'Hyödynnä jatkotoimenpiteissä',
+      'Näyte analysoidaan laboratoriossa',
+      'Saat ilmoituksen, kun tulokset ovat valmiit',
+      'Raportti sisältää selkeän tiedon asbestin esiintymisestä',
+      'Raportti täyttää asbestilainsäädännön vaatimukset',
     ],
   },
 ];
@@ -140,8 +146,11 @@ export default function GuidePage() {
       {/* Warning block */}
       <div className="mx-6 mt-5 p-4 rounded-2xl" style={{ background: 'rgba(234,179,8,0.1)', border: '1px solid rgba(234,179,8,0.35)' }}>
         <p className="text-sm font-semibold text-yellow-400 mb-1">⚠️ Muista</p>
+        <p className="text-sm mb-1" style={{ color: 'rgba(255,255,255,0.7)' }}>
+          Jos olet epävarma materiaalista, vältä sen käsittelyä ja toimi varoen.
+        </p>
         <p className="text-sm" style={{ color: 'rgba(255,255,255,0.7)' }}>
-          Jos olet epävarma materiaalista — käsittele sitä asbestina kunnes toisin todistetaan.
+          Tarvittaessa käytä suojavarusteita.
         </p>
       </div>
 
