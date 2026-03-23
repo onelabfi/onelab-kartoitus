@@ -119,7 +119,7 @@ export default function DemoSection() {
           <img
             src={slides[current].src}
             alt={slides[current].caption}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block' }}
+            style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', background: '#0A0F1A' }}
           />
         )}
       </div>
