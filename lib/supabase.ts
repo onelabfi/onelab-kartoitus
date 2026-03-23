@@ -6,7 +6,7 @@ export type Survey = {
   name: string;
   city: string;
   date: string;
-  status: 'draft' | 'submitted' | 'analyzing' | 'complete';
+  status: 'draft' | 'pending_payment' | 'submitted' | 'analyzing' | 'complete';
   created_at: string;
   kohde_tyyppi: string | null;
   kohde_muu: string | null;
