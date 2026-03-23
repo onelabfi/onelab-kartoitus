@@ -27,10 +27,7 @@ export default function LandingPage() {
         {/* NAV */}
         <nav style={{ borderBottom: '1px solid rgba(255,255,255,0.06)', padding: '0 1.5rem' }}>
           <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 64 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg,#1B3A6B,#2563EB)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }} aria-hidden="true">🔬</div>
-              <span style={{ fontWeight: 800, fontSize: 16 }}>Onelab Kartoittaja</span>
-            </div>
+            <img src="/kartoittaja.png" alt="Kartoittaja.com" style={{ height: 48, width: 'auto', objectFit: 'contain' }} />
             <Link href="/login" style={{ background: 'linear-gradient(135deg,#1B3A6B,#2563EB)', color: '#fff', fontWeight: 700, fontSize: 14, padding: '10px 22px', borderRadius: 12, textDecoration: 'none' }}>
               Kirjaudu sisään →
             </Link>
