@@ -10,11 +10,9 @@ const slides = [
   { src: '/slide5.png', caption: 'Yhteenveto — näytteet ja kuvat' },
 ];
 
-const FRAME_W = 400;
-// same aspect ratio as a phone screen
 const FRAME_STYLE: React.CSSProperties = {
-  width: FRAME_W,
-  aspectRatio: '9/19.5',
+  width: 400,
+  height: 563,
   borderRadius: 22,
   overflow: 'hidden',
   border: '4px solid #1C1C1E',
