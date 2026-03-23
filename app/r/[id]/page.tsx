@@ -3,7 +3,6 @@ export const dynamic = 'force-dynamic';
 
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import { supabase } from '@/lib/supabase';
 import type { Survey, Sample, AppSettings } from '@/lib/supabase';
 import {
   TUTKIMUSMENETELMAT,
@@ -59,16 +58,14 @@ export default function PublicReportPage() {
 
   useEffect(() => {
     if (!id) return;
-    Promise.all([
-      supabase.from('surveys').select('*').eq('id', id).single(),
-      supabase.from('survey_samples').select('*').eq('survey_id', id).order('created_at'),
-      supabase.from('app_settings').select('*').eq('id', SETTINGS_ID).single(),
-    ])
-      .then(([{ data: surveyData }, { data: samplesData }, { data: settingsData }]) => {
+    fetch(`/api/reports/${id}`)
+      .then(res => res.ok ? res.json() : Promise.reject())
+      .then(({ survey: surveyData, samples: samplesData, appSettings: settingsData }) => {
         if (surveyData) setSurvey(surveyData);
         if (samplesData) setSamples(samplesData);
         if (settingsData) setAppSettings(settingsData);
       })
+      .catch(() => {})
       .finally(() => setLoading(false));
   }, [id]);
 
