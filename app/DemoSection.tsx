@@ -97,7 +97,7 @@ export default function DemoSection() {
               </p>
             </div>
             <a
-              href="/report.pdf"
+              href="https://onelab-kartoitus.vercel.app/r/e04846e5-263b-4d76-a2bd-749d531a8215"
               target="_blank"
               rel="noopener noreferrer"
               style={{
