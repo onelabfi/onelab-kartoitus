@@ -383,7 +383,7 @@ export default function UusiKartoitusPage() {
                   <textarea value={s.notes} onChange={e => updateSample(s.id, { notes: e.target.value })} rows={2} placeholder="Vapaaehtoinen kuvaus..." className="w-full border rounded-xl px-3 py-2 text-sm outline-none focus:border-blue-500 resize-none mb-3" style={{ borderColor: 'var(--border)' }} />
 
                   {/* Kuva kohteesta */}
-                  <p className="text-xs font-medium mb-1" style={{ color: 'var(--muted)' }}>Kuva kohteesta</p>
+                  <p className="text-xs font-medium mb-1" style={{ color: 'var(--muted)' }}>Kuva näytekohdasta (mistä näyte otettiin)</p>
                   <label className="block cursor-pointer">
                     <div className="border-2 border-dashed rounded-xl py-3 text-center text-sm" style={{ borderColor: s.photoPreview ? 'var(--accent)' : 'var(--border)', color: s.photoPreview ? 'var(--accent)' : 'var(--muted)' }}>
                       {s.photoPreview ? '✓ Kuva lisätty' : '📷 Ota kuva kohteesta'}
@@ -393,7 +393,7 @@ export default function UusiKartoitusPage() {
                   {s.photoPreview && <img src={s.photoPreview} className="mt-2 w-full h-32 object-cover rounded-xl" alt="Näytteen kuva" />}
 
                   {/* Kuva näytepussista */}
-                  <p className="text-xs font-medium mt-3 mb-1" style={{ color: 'var(--muted)' }}>Kuva näytepussista</p>
+                  <p className="text-xs font-medium mt-3 mb-1" style={{ color: 'var(--muted)' }}>Kuva suljetusta näytepussista (merkintä näkyvissä)</p>
                   <label className="block cursor-pointer">
                     <div className="border-2 border-dashed rounded-xl py-3 text-center text-sm" style={{ borderColor: s.bagPhotoPreview ? 'var(--accent)' : 'var(--border)', color: s.bagPhotoPreview ? 'var(--accent)' : 'var(--muted)' }}>
                       {s.bagPhotoPreview ? '✓ Kuva pussista lisätty' : '🧪 Ota kuva pussista'}
