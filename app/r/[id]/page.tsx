@@ -115,9 +115,9 @@ export default function PublicReportPage() {
 
   const page1Logo = logoUrl ? (
     <img src={logoUrl} alt={companyName} className="h-12 mb-2 print:h-10 object-contain" />
-  ) : (
+  ) : companyName && companyName !== 'Yritys' ? (
     <p className="text-lg font-bold text-white mb-2">{companyName}</p>
-  );
+  ) : null;
 
   const page2Logo = (
     <img
@@ -149,7 +149,7 @@ export default function PublicReportPage() {
             title="ASBESTIKARTOITUSRAPORTTI"
             dateStr={dateStr}
             logo={page1Logo}
-            companyInfo={companyName}
+            companyInfo={companyName !== 'Yritys' ? companyName : undefined}
           />
 
           <div className="bg-white p-8 sm:p-10 print:p-0 print:pt-4">

@@ -190,9 +190,9 @@ export default function ReportPage() {
   // Dynamic logo for page 1 (company logo from settings)
   const page1Logo = logoUrl ? (
     <img src={logoUrl} alt={companyName} className="h-12 mb-2 print:h-10 object-contain" />
-  ) : (
+  ) : companyName && companyName !== 'Yritys' ? (
     <p className="text-lg font-bold text-white mb-2">{companyName}</p>
-  );
+  ) : null;
 
   // Onelab logo for page 2
   const page2Logo = (
@@ -256,7 +256,7 @@ export default function ReportPage() {
             title="ASBESTIKARTOITUSRAPORTTI"
             dateStr={dateStr}
             logo={page1Logo}
-            companyInfo={companyName}
+            companyInfo={companyName !== 'Yritys' ? companyName : undefined}
           />
 
           {/* White content */}

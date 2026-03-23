@@ -14,7 +14,7 @@ export const SOPIMUSEHDOT =
   'Yleiset KSE 2013 sopimusehdot koskevat tätä toimeksiantoa. Raportin käyttö tai siihen viittaminen edellyttää toimitusehtoin hyväksymisen.';
 
 export const ONELAB_NAME = 'Onelab';
-export const ONELAB_LOGO = '/onelab logo.png';
+export const ONELAB_LOGO = '/onelab-logo.png';
 
 // Finnish genitive forms for known location names
 const LOCATION_GENITIVE: Record<string, string> = {
