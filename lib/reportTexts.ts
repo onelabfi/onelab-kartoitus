@@ -101,7 +101,7 @@ export function generateYleista(
       list = parts.slice(0, -1).join(', ') + ' ja ' + parts[parts.length - 1];
     }
 
-    base += `${list.charAt(0).toUpperCase() + list.slice(1)} sisältää asbestia.`;
+    base += `${list.charAt(0).toUpperCase() + list.slice(1)} sisältää asbestia ja nämä tulee poistaa valtuutetun asbestipurkajan toimesta.`;
 
     if (hasClean) {
       base += ' Muut tutkitut materiaalit voidaan tulosten perusteella purkaa normaalipurkuna.';
