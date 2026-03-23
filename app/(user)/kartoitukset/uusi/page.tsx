@@ -263,7 +263,7 @@ export default function UusiKartoitusPage() {
             <div className="bg-white rounded-2xl p-4 shadow-sm">
               <p className="text-xs font-semibold mb-2" style={{ color: 'var(--muted)' }}>KOHTEEN TYYPPI</p>
               <div className="flex gap-2 flex-wrap">
-                {['Pintaremontti', 'Purettava kohde', 'Muu'].map(t => (
+                {['Pintaremontti', 'Yksittäiset näytteet', 'Muu'].map(t => (
                   <button key={t} onClick={() => setKohdeTyyppi(t)} className="px-3 py-2 rounded-xl text-sm font-medium border transition-colors" style={btnStyle(kohde_tyyppi === t)}>
                     {t}
                   </button>
@@ -274,28 +274,6 @@ export default function UusiKartoitusPage() {
               )}
             </div>
 
-            {/* Katto + Runko — only for demolition sites */}
-            {kohde_tyyppi === 'Purettava kohde' && (
-              <>
-                <div className="bg-white rounded-2xl p-4 shadow-sm">
-                  <p className="text-xs font-semibold mb-2" style={{ color: 'var(--muted)' }}>KATTO</p>
-                  <div className="flex gap-2">
-                    {['Pelti', 'Huopa', 'Tiili'].map(k => (
-                      <button key={k} onClick={() => setKatto(k)} className="flex-1 py-2 rounded-xl text-sm font-medium border" style={btnStyle(katto === k)}>{k}</button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-2xl p-4 shadow-sm">
-                  <p className="text-xs font-semibold mb-2" style={{ color: 'var(--muted)' }}>RUNKO</p>
-                  <div className="flex gap-2">
-                    {['Puu', 'Tiili', 'Betoni'].map(r => (
-                      <button key={r} onClick={() => setRunko(r)} className="flex-1 py-2 rounded-xl text-sm font-medium border" style={btnStyle(runko === r)}>{r}</button>
-                    ))}
-                  </div>
-                </div>
-              </>
-            )}
 
             <button
               onClick={() => {
