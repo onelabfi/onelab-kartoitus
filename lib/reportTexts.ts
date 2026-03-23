@@ -95,7 +95,7 @@ export function generateYleista(
   }
 
   base +=
-    'Kohde kartoitettiin aistinvaraisesti ja näytteistettiin niiltä osin, kun oli epäiltävää, että materiaalissa saattaa olla asbestia tai muita haitta-aineita. ';
+    'Kohde tarkastettiin aistinvaraisesti ja näytteitä otettiin epäilyttävistä materiaaleista mahdollisen asbestin tai muiden haitta-aineiden selvittämiseksi. ';
 
   if (hasAsbestos) {
     // Build list: "KPH:n seinän laatta, laasti" / "KPH:n lattian laasti"
