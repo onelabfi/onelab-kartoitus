@@ -33,10 +33,7 @@ export default function AsbestikartoitusOhjeetPage() {
     <div style={page}>
       <nav style={nav} aria-label="Sivuston navigaatio">
         <div style={navInner}>
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', color: '#fff' }}>
-            <div style={{ width: 36, height: 36, borderRadius: 10, background: 'linear-gradient(135deg,#1B3A6B,#2563EB)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18 }} aria-hidden="true">🔬</div>
-            <span style={{ fontWeight: 800, fontSize: 16 }}>Onelab Kartoittaja</span>
-          </Link>
+          <Link href="/"><img src="/kartoittaja-gen.png" alt="Kartoittaja" style={{ height: 72, width: 'auto', objectFit: 'contain' }} /></Link>
           <Link href="/login" style={{ background: 'linear-gradient(135deg,#1B3A6B,#2563EB)', color: '#fff', fontWeight: 700, fontSize: 14, padding: '10px 22px', borderRadius: 12, textDecoration: 'none' }}>
             Kirjaudu sisään →
           </Link>
