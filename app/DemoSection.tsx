@@ -11,7 +11,7 @@ const slides = [
 ];
 
 const FRAME_STYLE: React.CSSProperties = {
-  width: 400,
+  width: 360,
   height: 563,
   borderRadius: 22,
   overflow: 'hidden',
@@ -119,7 +119,7 @@ export default function DemoSection() {
           <img
             src={slides[current].src}
             alt={slides[current].caption}
-            style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block', background: '#0A0F1A' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top', display: 'block' }}
           />
         )}
       </div>
