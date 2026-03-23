@@ -43,7 +43,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   }
 
   const { data: emailData, error: emailError } = await getResend().emails.send({
-    from: 'Onelab Asbestikartoitus <onboarding@resend.dev>',
+    from: 'Kartoittaja.com <onboarding@resend.dev>',
     to: recipientEmail,
     subject: `Asbestikartoitusraportti valmis — ${survey.name}`,
     html: `
