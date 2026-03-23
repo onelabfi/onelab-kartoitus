@@ -78,7 +78,6 @@ export default function ReportPage() {
       } else {
         setSendStatus('error');
         console.error('Send error:', data.error);
-        alert(`Virhe: ${data.error}`);
       }
     } catch {
       setSendStatus('error');
@@ -104,7 +103,7 @@ export default function ReportPage() {
 
   useEffect(() => {
     if (survey && samples) {
-      setEditTilaaja(survey.tilaaja_nimi || appSettings?.kartoittaja_name || '');
+      setEditTilaaja(survey.tilaaja_nimi || '');
       setEditKohde(`${survey.name}${survey.city ? ', ' + survey.city : ''}`);
       setEditYleista(
         generateYleista(survey.name, survey.city, survey.kohde_tyyppi, samples, survey.katto, survey.runko)
@@ -268,18 +267,11 @@ export default function ReportPage() {
                 <tr>
                   <td className="py-1 pr-8 text-gray-500 w-40">Kartoittaja</td>
                   <td className="py-1 font-medium">
-                    {kartoittajaName}
-                    {kartoittajaTitle ? `, ${kartoittajaTitle}` : ''}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-1 pr-8 text-gray-500">Tilaaja</td>
-                  <td className="py-1 font-medium">
                     <input
                       type="text"
                       value={editTilaaja}
                       onChange={e => setEditTilaaja(e.target.value)}
-                      placeholder="Tilaajan nimi..."
+                      placeholder="Kartoittajan nimi..."
                       className="w-full bg-transparent border-0 border-b border-transparent hover:border-gray-300 focus:border-blue-500 focus:outline-none px-0 py-0 font-medium print:border-none"
                     />
                   </td>
@@ -426,7 +418,7 @@ export default function ReportPage() {
                 />
               )}
               <p className="font-medium">
-                {kartoittajaName}, {kartoittajaTitle}
+                Kartoittaja, {editTilaaja || kartoittajaName}
               </p>
               {kartoittajaCredentials && (
                 <p className="text-[11px] text-gray-500">{kartoittajaCredentials}</p>
@@ -454,16 +446,12 @@ export default function ReportPage() {
             <table className="w-full mb-6">
               <tbody className="text-[13px]">
                 <tr>
-                  <td className="py-1 pr-8 text-gray-500 w-44">Tilaaja</td>
-                  <td className="py-1 font-medium">{editTilaaja || '—'}</td>
+                  <td className="py-1 pr-8 text-gray-500 w-44">Näytteenottaja</td>
+                  <td className="py-1 font-medium">{editTilaaja || kartoittajaName}</td>
                 </tr>
                 <tr>
                   <td className="py-1 pr-8 text-gray-500">Näytteenottokohde</td>
                   <td className="py-1 font-medium">{editKohde}</td>
-                </tr>
-                <tr>
-                  <td className="py-1 pr-8 text-gray-500">Näytteenottaja</td>
-                  <td className="py-1 font-medium">{kartoittajaName}</td>
                 </tr>
                 <tr>
                   <td className="py-1 pr-8 text-gray-500">Näytteenottopäivä</td>

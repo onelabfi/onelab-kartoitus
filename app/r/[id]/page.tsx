@@ -157,10 +157,7 @@ export default function PublicReportPage() {
               <tbody className="text-[13px]">
                 <tr>
                   <td className="py-1 pr-8 text-gray-500 w-40">Kartoittaja</td>
-                  <td className="py-1 font-medium">
-                    {kartoittajaName}
-                    {kartoittajaTitle ? `, ${kartoittajaTitle}` : ''}
-                  </td>
+                  <td className="py-1 font-medium">{survey.tilaaja_nimi || kartoittajaName}</td>
                 </tr>
                 <tr>
                   <td className="py-1 pr-8 text-gray-500">Kartoituskohde</td>
@@ -257,7 +254,7 @@ export default function PublicReportPage() {
                 />
               )}
               <p className="font-medium">
-                {kartoittajaName}, {kartoittajaTitle}
+                Kartoittaja, {survey.tilaaja_nimi || kartoittajaName}
               </p>
               {kartoittajaCredentials && (
                 <p className="text-[11px] text-gray-500">{kartoittajaCredentials}</p>
@@ -287,7 +284,7 @@ export default function PublicReportPage() {
                 </tr>
                 <tr>
                   <td className="py-1 pr-8 text-gray-500">Näytteenottaja</td>
-                  <td className="py-1 font-medium">{kartoittajaName}</td>
+                  <td className="py-1 font-medium">{survey.tilaaja_nimi || kartoittajaName}</td>
                 </tr>
                 <tr>
                   <td className="py-1 pr-8 text-gray-500">Näytteenottopäivä</td>
