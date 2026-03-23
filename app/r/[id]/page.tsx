@@ -272,7 +272,6 @@ export default function PublicReportPage() {
             subtitle="- Liite kartoitusraporttiin"
             dateStr={dateStr}
             logo={page2Logo}
-            companyInfo={ONELAB_NAME}
           />
 
           <div className="bg-white p-8 sm:p-10 print:p-0 print:pt-4">

@@ -437,7 +437,6 @@ export default function ReportPage() {
             subtitle="- Liite kartoitusraporttiin"
             dateStr={dateStr}
             logo={page2Logo}
-            companyInfo={ONELAB_NAME}
           />
 
           {/* White content */}
