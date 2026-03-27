@@ -70,7 +70,11 @@ export default function ReportPage() {
     setSending(true);
     setSendStatus('idle');
     try {
-      const res = await fetch(`/api/surveys/${survey.id}/send-report`, { method: 'POST' });
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch(`/api/surveys/${survey.id}/send-report`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${session?.access_token}` },
+      });
       const data = await res.json();
       if (res.ok) {
         setSendStatus('sent');

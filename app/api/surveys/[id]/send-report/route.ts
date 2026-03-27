@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerSupabase } from '@/lib/supabase';
+import { createServerSupabase, getUserFromRequest, isAdmin } from '@/lib/supabase';
 import { Resend } from 'resend';
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
@@ -11,6 +11,10 @@ function getResend() {
 }
 
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const user = await getUserFromRequest(req);
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!await isAdmin(user.id)) return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+
   const { id } = await params;
   const supabase = createServerSupabase();
 
@@ -27,20 +31,11 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     return NextResponse.json({ error: 'Tilaajan sähköposti puuttuu kartoituksesta' }, { status: 400 });
   }
 
-  // Update status
-  await supabase
-    .from('surveys')
-    .update({
-      status: 'complete',
-      report_sent_at: new Date().toISOString(),
-    })
-    .eq('id', id);
-
-  const reportLink = `${reportUrl}/r/${id}`;
-
   if (!RESEND_API_KEY) {
     return NextResponse.json({ error: 'RESEND_API_KEY ei ole asetettu palvelimella' }, { status: 500 });
   }
+
+  const reportLink = `${reportUrl}/r/${id}`;
 
   const { data: emailData, error: emailError } = await getResend().emails.send({
     from: 'Kartoittaja.com <onboarding@resend.dev>',
@@ -63,6 +58,15 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
     console.error('Resend error:', JSON.stringify(emailError));
     return NextResponse.json({ error: `Sähköpostin lähetys epäonnistui: ${emailError.message}` }, { status: 500 });
   }
+
+  // Update status only after email confirmed sent
+  await supabase
+    .from('surveys')
+    .update({
+      status: 'complete',
+      report_sent_at: new Date().toISOString(),
+    })
+    .eq('id', id);
 
   console.log('Email sent successfully:', emailData?.id);
 

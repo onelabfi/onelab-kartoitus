@@ -60,3 +60,18 @@ export function createServerSupabase() {
     process.env.SUPABASE_SERVICE_ROLE_KEY || 'placeholder'
   );
 }
+
+/** Extract and verify the Supabase user from a Bearer token in the Authorization header. */
+export async function getUserFromRequest(req: import('next/server').NextRequest) {
+  const token = req.headers.get('authorization')?.replace('Bearer ', '');
+  if (!token) return null;
+  const { data: { user } } = await supabase.auth.getUser(token);
+  return user ?? null;
+}
+
+/** Returns true if userId is in the admin_users table. */
+export async function isAdmin(userId: string): Promise<boolean> {
+  const admin = createServerSupabase();
+  const { data } = await admin.from('admin_users').select('id').eq('user_id', userId).single();
+  return !!data;
+}

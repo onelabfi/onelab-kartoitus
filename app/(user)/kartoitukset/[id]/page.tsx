@@ -61,9 +61,10 @@ export default function SurveyDetailPage() {
           <p className="text-red-600 text-xs mt-1">Maksu peruutettiin. Kartoitustietosi on tallennettu — voit yrittää maksua uudelleen.</p>
           <button
             onClick={async () => {
+              const { data: { session } } = await supabase.auth.getSession();
               const res = await fetch('/api/checkout', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session?.access_token}` },
                 body: JSON.stringify({ surveyId: id, sampleCount: samples.length, surveyAddress: survey.name }),
               });
               const { url } = await res.json();
