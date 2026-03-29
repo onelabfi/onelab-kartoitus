@@ -39,8 +39,11 @@ export default function AdminSurveyDetailPage() {
         polyavyys: s.polyavyys ?? null,
       }).eq('id', s.id);
     }
-    await supabase.from('surveys').update({ status: 'analyzing' }).eq('id', id);
-    if (survey) setSurvey({ ...survey, status: 'analyzing' });
+    const newStatus = samples.length > 0 && samples.every(s => s.asbestos_detected !== null)
+      ? 'complete'
+      : 'analyzing';
+    await supabase.from('surveys').update({ status: newStatus }).eq('id', id);
+    if (survey) setSurvey({ ...survey, status: newStatus });
     setSaving(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
