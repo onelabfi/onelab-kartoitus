@@ -12,6 +12,7 @@ import {
   SOPIMUSEHDOT,
   ONELAB_NAME,
   ONELAB_LOGO,
+  PURKU_SUOSITUS,
   generateYleista,
 } from '@/lib/reportTexts';
 
@@ -366,6 +367,12 @@ export default function ReportPage() {
                     })}
                   </tbody>
                 </table>
+              </div>
+            )}
+
+            {asbestosSamples.length > 0 && (
+              <div className="mb-6 p-3 rounded-lg bg-red-50 border border-red-200">
+                <p className="text-sm font-semibold text-red-800">⚠ {PURKU_SUOSITUS}</p>
               </div>
             )}
 

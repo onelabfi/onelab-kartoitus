@@ -32,7 +32,7 @@ export default function ReportViewPage() {
       <div className="flex items-center gap-3 mb-6">
         <Link href="/raportit" className="text-xl">←</Link>
         <h1 className="font-bold text-base flex-1">Raportti</h1>
-        <button onClick={() => window.print()} className="text-xs px-3 py-1.5 rounded-lg text-white font-medium" style={{ background: 'var(--accent)' }}>PDF</button>
+        <a href={`/r/${id}`} target="_blank" rel="noopener noreferrer" className="text-xs px-3 py-1.5 rounded-lg text-white font-medium" style={{ background: 'var(--accent)' }}>PDF</a>
       </div>
 
       <div className="bg-white rounded-2xl shadow-sm overflow-hidden mb-4">

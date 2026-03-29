@@ -16,6 +16,9 @@ export const SOPIMUSEHDOT =
 export const ONELAB_NAME = 'Onelab';
 export const ONELAB_LOGO = '/onelab-logo.png';
 
+export const PURKU_SUOSITUS =
+  'Suositellaan purkua valtuutetun purkuliikkeen toimesta.';
+
 // Finnish genitive forms for known location names
 const LOCATION_GENITIVE: Record<string, string> = {
   'Keittiö': 'Keittiön',
