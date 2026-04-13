@@ -14,7 +14,7 @@ const steps = [
   { n: '1', title: 'Kirjaudu sisään', desc: 'Luo tili tai kirjaudu olemassa olevalla tunnuksella.' },
   { n: '2', title: 'Suorita perehdytys', desc: 'Lue turvalliset näytteenotto-ohjeet — pakollinen ennen ensimmäistä kartoitusta.' },
   { n: '3', title: 'Aloita kartoitus', desc: 'Syötä kohteen tiedot, lisää näytteet ja valokuvat.' },
-  { n: '4', title: 'Saat raportin', desc: 'Onelabin laboratorio analysoi näytteet ja lähettää valmiin PDF-raportin.' },
+  { n: '4', title: 'Saat raportin', desc: 'Tuo tai postita näytteet: Onelab, Ukkohauentie 11–13 A, 02170 Espoo. Laboratorio analysoi näytteet ja lähettää valmiin PDF-raportin.' },
 ];
 
 export default function LandingPage() {

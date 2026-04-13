@@ -85,7 +85,7 @@ export default function AsbestinäytePage() {
               { n: '2', title: 'Suojaudu ennen ottoa', desc: 'Käytä hengityssuojainta (vähintään P2-luokka) ja suojahansikkaita. Kostuta materiaali kevyesti ennen ottoa pölyn minimoimiseksi.' },
               { n: '3', title: 'Ota pieni näyte', desc: 'Irrota varovasti noin 1–2 cm² kokoinen pala materiaalista. Vältä turhaa murentamista ja pölyn muodostumista.' },
               { n: '4', title: 'Merkitse ja pakkaa', desc: 'Laita näyte suljettuun muovipussiin ja merkitse selvästi: sijainti, materiaali, ottopäivä.' },
-              { n: '5', title: 'Toimita laboratorioon', desc: 'Toimita näyte Onelabin laboratorioon postitse tai henkilökohtaisesti. Tulokset saapuvat yleensä 1–3 arkipäivässä.' },
+              { n: '5', title: 'Toimita laboratorioon', desc: 'Tuo tai postita näytteet osoitteeseen: Onelab, Ukkohauentie 11–13 A, 02170 Espoo. Tulokset saapuvat yleensä 1–3 arkipäivässä.' },
             ].map(({ n, title, desc }) => (
               <li key={n} style={{ display: 'flex', gap: 20, marginBottom: 28, alignItems: 'flex-start' }}>
                 <div style={{ minWidth: 40, height: 40, borderRadius: 12, background: 'linear-gradient(135deg,#1B3A6B,#2563EB)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 16 }} aria-hidden="true">{n}</div>
