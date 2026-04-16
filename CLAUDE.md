@@ -1,5 +1,13 @@
 @AGENTS.md
 
+## AI System Context
+On every session, also read the ai-system directory for full project context:
+- `ai-system/master_prompt.md` — entry point (references all other files)
+- `ai-system/context/` — vision, architecture (static truth)
+- `ai-system/state/` — current state, roadmap, product decisions (evolving)
+- `ai-system/rules/` — agent rules, constraints (behavior enforcement)
+
+
 # OneLab Kartoitus — Claude Control File
 
 ## Memory Vault
